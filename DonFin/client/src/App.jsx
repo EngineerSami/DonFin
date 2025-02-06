@@ -1,11 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./Components/TopBar";
-import TopBar from "./Components/TopBar";
+import Home from "./Components/Home";
+import "./main.css"
 
 const App = () => {
     return (
-        <TopBar/>
+        <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Router>
     );
 };
 

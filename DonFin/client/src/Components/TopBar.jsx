@@ -11,7 +11,6 @@ function TopBar() {
       <nav className="nav-links">
         <a href="/" className="nav-link">Home</a>
         <a href="/faq" className="nav-link">FAQ</a>
-        <a href="/about" className="nav-link">About Us</a>
         <a href="/login" className="login-btn nav-link">Login</a>
         <a href="/register" className="register-btn nav-link">Register</a>
       </nav>
