@@ -2,7 +2,6 @@ import React from "react";
 import TopBar from "./TopBar";
 import "../Styles/Home.css";
 import image from "../images/Logo.png";
-import Footer from "./footer";
 
 function Home() {
   return (
