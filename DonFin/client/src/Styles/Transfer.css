@@ -1,0 +1,99 @@
+/* Main container for the page */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+  }
+  
+  /* Header and Sidebar Container */
+  .dashboard-content {
+    display: flex;
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #1a242f;
+    color: white;
+  }
+  
+  /* Main content area */
+  .main-content {
+    flex-grow: 1;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-left: 13%;
+  }
+  
+  /* Header for the main content */
+  .main-content h1 {
+    color: #1a242f;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+  
+  /* Container for the currency conversion form */
+  .currency-conversion {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Label styles for inputs */
+  .currency-conversion label {
+    font-size: 16px;
+    color: #1a242f;
+    font-weight: 500;
+  }
+  
+  /* Input field styling */
+  .currency-conversion input,
+  .currency-conversion select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+  }
+  
+  .currency-conversion input:focus,
+  .currency-conversion select:focus {
+    border-color: #00a99d;
+    background-color: #e8f8f7;
+  }
+  
+  /* Button styling */
+  .currency-conversion button {
+    padding: 12px 20px;
+    background-color: #00a99d;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+  }
+  
+  .currency-conversion button:hover {
+    background-color: #00978a;
+  }
+  
+  /* Result display styling */
+  .currency-conversion h3 {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #1a242f;
+    font-weight: 600;
+  }
+  
+  .currency-conversion h3 span {
+    font-weight: 400;
+    color: #00a99d;
+  }
+  

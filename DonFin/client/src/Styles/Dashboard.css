@@ -1,0 +1,38 @@
+/* Dashboard.css */
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dashboard-content {
+    display: flex;
+    flex-grow: 1;
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f4f4f4; /* Light background color for the content area */
+    margin-left: 250px; /* Adjust based on sidebar width */
+  }
+  
+  .dashboard-content {
+    display: flex;
+    height: 100vh;
+    background-color: #f1f1f1;
+  }
+  .addmonth {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed rgba(0, 0, 0, 0.356); /* Dashed border */
+    border-radius: 30px;
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.356);
+    text-align: center;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+  }
+  
+  

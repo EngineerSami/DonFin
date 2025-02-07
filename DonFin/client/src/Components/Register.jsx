@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../Styles/Register.css";
 import TopBar from "./TopBar";
+import { Link } from "react-router-dom";
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -98,7 +99,7 @@ const Register = () => {
                         </div>
                         <button type="submit" className="register-button">Register</button>
                     </form>
-                    <p>Already have an account? <a href="#" className="signin-link">Sign in</a></p>
+                    <p>Already have an account? <Link to="/login" className="signin-link">Login</Link></p>
                 </div>
             </div>
         </>
