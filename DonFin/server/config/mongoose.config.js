@@ -1,15 +1,24 @@
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config();
 const mongoose = require('mongoose');
 
-// Fetch the values from the environment variables
+// Ensure environment variables are loaded
 const dbName = process.env.DB;
 const username = process.env.ATLAS_USERNAME;
-const pw = encodeURIComponent(process.env.ATLAS_PASSWORD); // Ensure password is URL encoded
+const password = process.env.ATLAS_PASSWORD;
 
-// Create the MongoDB connection string
-const uri = `mongodb+srv://${username}:${pw}@mycluster.ypx3l.mongodb.net/${dbName}?retryWrites=true&w=majority&appName=MyCluster`;
+if (!dbName || !username || !password) {
+    console.error("❌ Missing database credentials in .env file");
+    process.exit(1);
+}
 
-// Connect to MongoDB using Mongoose
+// Encode password in case it contains special characters
+const encodedPassword = encodeURIComponent(password);
+
+const uri = `mongodb+srv://${username}:${encodedPassword}@cluster6.uhh9k.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+
 mongoose.connect(uri)
-    .then(() => console.log("Established a connection to the database"))
-    .catch(err => console.log("Something went wrong when connecting to the database", err));
+    .then(() => console.log("✅ Successfully connected to the database"))
+    .catch(err => {
+        console.error("❌ Database connection error:", err.message);
+        process.exit(1);
+    });

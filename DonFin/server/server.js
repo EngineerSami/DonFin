@@ -1,20 +1,20 @@
 require('dotenv').config();
-require('./config/mongoose.config');
+require('./config/mongoose.config'); 
 
 const express = require('express');
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 const cors = require('cors');
 
-// Middleware
 app.use(cors());
 app.use(express.json(), express.urlencoded({ extended: true }));
 
-// Routes
-// const authorRoutes = require("./routes/author.routes");
-// authorRoutes(app);
+    const userRoutes = require('./routes/Routes');
 
-// Start server
+    app.use(userRoutes); 
+
+
+
 app.listen(port, () => {
     console.log(`Listening at Port ${port}`);
 });
