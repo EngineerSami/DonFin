@@ -76,10 +76,10 @@ function AddMonth() {
         <Sidebar />
         <div className="add-content">
           <h1>Add a New Month</h1>
-          <form onSubmit={handleSubmit}>
-            <div>
+          <form className="add-form" onSubmit={handleSubmit}>
+            <div className="input-div">
               <label htmlFor="monthTitle">Month Title</label>
-              <input
+              <input className="add-input"
                 type="text"
                 id="monthTitle"
                 value={monthTitle}
@@ -87,9 +87,9 @@ function AddMonth() {
                 required
               />
             </div>
-            <div>
+            <div className="input-div">
               <label htmlFor="startDate">Start Date</label>
-              <input
+              <input className="add-input"
                 type="date"
                 id="startDate"
                 value={startDate}
@@ -97,9 +97,9 @@ function AddMonth() {
                 required
               />
             </div>
-            <div>
+            <div className="input-div">
               <label htmlFor="endDate">End Date</label>
-              <input
+              <input className="add-input"
                 type="date"
                 id="endDate"
                 value={endDate}
@@ -107,9 +107,9 @@ function AddMonth() {
                 required
               />
             </div>
-            <div>
+            <div className="input-div">
               <label htmlFor="budget">Budget</label>
-              <input
+              <input className="add-input"
                 type="number"
                 id="budget"
                 value={budget}

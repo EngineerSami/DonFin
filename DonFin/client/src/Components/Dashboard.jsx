@@ -51,7 +51,7 @@ function Dashboard() {
                                 </div>
                             ))
                         ) : (
-                            <p>No months added yet.</p>
+                            <p></p>
                         )}
                         <div className="addmonth" onClick={addBox}>+</div>
                     </div>

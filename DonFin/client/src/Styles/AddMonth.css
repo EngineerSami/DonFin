@@ -25,7 +25,7 @@
   }
   
   /* Form */
-  form {
+  .add-form {
     width: 100%;
     max-width: 500px; /* Form width with max constraint */
     background-color: #f4f4f4;
@@ -35,7 +35,7 @@
   }
   
   /* Form Input Fields */
-  div {
+  .input-div {
     margin-bottom: 15px;
   }
   
@@ -46,7 +46,7 @@
     margin-bottom: 5px;
   }
   
-  input {
+  .add-input {
     width: 470px;
     padding: 10px;
     font-size: 1rem;
@@ -56,7 +56,7 @@
     color: #333;
   }
   
-  input:focus {
+  .add-input:focus {
     outline: none;
     border-color: #00a99d; /* Highlight border color on focus */
     box-shadow: 0 0 5px rgba(0, 169, 157, 0.5); /* Focus shadow */

@@ -24,7 +24,10 @@ function TopBar() {
         <Link to="/faq" className="nav-link">FAQ</Link>
 
         {isLoggedIn ? (
+          <>
+          <Link to="/dashboard" className="nav-link">User Dashboard</Link>
           <button onClick={handleLogout} className="login-btn nav-link">Logout</button>
+          </>
         ) : (
           <>
             <Link to="/login" className="login-btn nav-link">Login</Link>
