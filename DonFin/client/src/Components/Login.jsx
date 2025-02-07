@@ -32,7 +32,7 @@ const Login = () => {
       <TopBar />
       <div className="container-register">
         <div className="register-box">
-          <h2>Login</h2>
+          <h2 style={{color:"white"}} >Login</h2>
           <form onSubmit={handleSubmit}>
             <div className="input-group">
               <label>Email</label>

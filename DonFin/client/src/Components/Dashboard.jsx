@@ -11,19 +11,24 @@ function Dashboard() {
     const user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
-        if (user) {
-            fetch(`http://localhost:8000/api/users/${user._id}/months`)
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.months) {
-                        setMonths(data.months);
-                    } else {
-                        console.log("No months found for this user");
-                    }
-                })
-                .catch((error) => console.error("Error fetching months:", error));
+        // If the user is not logged in, redirect to the root route "/"
+        if (!user) {
+            navigate("/login");  // Redirect to home page (login or landing page)
+            return; // Exit early
         }
-    }, [user]);
+
+        // Fetch the months data if the user is logged in
+        fetch(`http://localhost:8000/api/users/${user._id}/months`)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.months) {
+                    setMonths(data.months);
+                } else {
+                    console.log("No months found for this user");
+                }
+            })
+            .catch((error) => console.error("Error fetching months:", error));
+    }, [user, navigate]); // Ensure the effect is called again if user or navigate changes
 
     const addBox = () => {
         navigate("/addmonth"); 
@@ -44,6 +49,7 @@ function Dashboard() {
             if (response.ok) {
                 setMonths(months.filter((month) => month._id !== monthId));
             } else {
+                console.log("Failed to delete month");
             }
         } catch (error) {
             console.error("Error deleting month:", error);

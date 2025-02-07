@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TopBar from "./TopBar";
 import Sidebar from "./SideBar";
 import "../Styles/Dashboard.css";
 import "../Styles/AddMonth.css";
-
 
 function AddMonth() {
   const [monthTitle, setMonthTitle] = useState("");
@@ -13,30 +12,33 @@ function AddMonth() {
   const [budget, setBudget] = useState("");
   const navigate = useNavigate();
 
+  // Check if the user is logged in
   const user = JSON.parse(localStorage.getItem('user'));
-  const userId = user ? `${user._id}` : "Guest";
-  
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");  // Redirect to login page if user is not logged in
+    }
+  }, [user, navigate]);
+
+  const userId = user ? `${user._id}` : null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Get user from localStorage
-    const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user ? `${user._id}` : null;
-  
+
     if (!userId) {
       alert("Please log in first.");
       navigate("/login");  // Redirect to login page
       return;
     }
-  
+
     if (!monthTitle || !startDate || !endDate || !budget) {
       alert("Please fill all the fields");
       return;
     }
-  
+
     const monthData = { userId, monthTitle, startDate, endDate, budget };
-  
+
     try {
       const response = await fetch("http://localhost:8000/api/users/add-month", {
         method: "POST",
@@ -45,10 +47,10 @@ function AddMonth() {
         },
         body: JSON.stringify(monthData),
       });
-  
+
       const textResponse = await response.text(); // Get response as text first
       console.log("Raw Response:", textResponse); // Log the raw response for debugging
-  
+
       try {
         const data = JSON.parse(textResponse); // Parse the response only if it's valid JSON
         if (response.ok) {
@@ -65,9 +67,6 @@ function AddMonth() {
       alert("Error adding month.");
     }
   };
-  
-  
-  
 
   return (
     <div className="dashboard-container">
@@ -79,7 +78,8 @@ function AddMonth() {
           <form className="add-form" onSubmit={handleSubmit}>
             <div className="input-div">
               <label htmlFor="monthTitle">Month Title</label>
-              <input className="add-input"
+              <input
+                className="add-input"
                 type="text"
                 id="monthTitle"
                 value={monthTitle}
@@ -89,7 +89,8 @@ function AddMonth() {
             </div>
             <div className="input-div">
               <label htmlFor="startDate">Start Date</label>
-              <input className="add-input"
+              <input
+                className="add-input"
                 type="date"
                 id="startDate"
                 value={startDate}
@@ -99,7 +100,8 @@ function AddMonth() {
             </div>
             <div className="input-div">
               <label htmlFor="endDate">End Date</label>
-              <input className="add-input"
+              <input
+                className="add-input"
                 type="date"
                 id="endDate"
                 value={endDate}
@@ -109,7 +111,8 @@ function AddMonth() {
             </div>
             <div className="input-div">
               <label htmlFor="budget">Budget</label>
-              <input className="add-input"
+              <input
+                className="add-input"
                 type="number"
                 id="budget"
                 value={budget}

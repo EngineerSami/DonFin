@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TopBar from "./TopBar";
 import Sidebar from "./SideBar"; // Ensure the correct path is used for Sidebar
 import "../Styles/Transfer.css"; // Add the correct CSS path
+import { useNavigate } from "react-router-dom";
 
 function Transfer() {
   const [amount, setAmount] = useState(1); // Amount to transfer
@@ -11,10 +12,18 @@ function Transfer() {
   const [result, setResult] = useState(null); // Result after conversion
   const [currencies, setCurrencies] = useState([]); // List of currencies
 
+  const navigate = useNavigate(); // Hook for navigation
   const apiUrl = `https://v6.exchangerate-api.com/v6/180131638c767797f48306e0/latest/${fromCurrency}`; // Dynamic API URL based on 'fromCurrency'
 
-  // Fetch currency data and conversion rate when the component mounts or when currencies change
+  // Check if the user is logged in
+  const user = JSON.parse(localStorage.getItem('user'));
+
   useEffect(() => {
+    if (!user) {
+      navigate("/login");  // Redirect to home page (login or landing page)
+      return; // Exit early if no user is found
+    }
+
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -27,7 +36,7 @@ function Transfer() {
         }
       })
       .catch((error) => console.error("Error fetching currency data:", error));
-  }, [fromCurrency, toCurrency]); // Trigger when the source or target currency changes
+  }, [fromCurrency, toCurrency, user, navigate]); // Trigger when the source or target currency changes or user changes
 
   // Function to handle currency conversion
   const handleConvert = () => {

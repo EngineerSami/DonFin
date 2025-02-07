@@ -69,7 +69,7 @@ const Register = () => {
             <TopBar />
             <div className="container-register">
                 <div className="register-box">
-                    <h2>Create an Account</h2>
+                    <h2 style={{color:"white"}}>Create an Account</h2>
                     {message && <p className="message">{message}</p>}
                     <form onSubmit={handleSubmit}>
                         <div className="input-group">
