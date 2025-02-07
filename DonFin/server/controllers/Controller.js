@@ -1,5 +1,3 @@
-//Controller.js
-
 const User = require('../models/Model'); // Import the User model
 const mongoose = require('mongoose');  // Import mongoose
 
@@ -38,59 +36,73 @@ const createUser = async (req, res) => {
 };
 
 // Add Month logic
-// Add Month logic
 const addMonth = async (req, res) => {
-    try {
-      const { userId, monthTitle, startDate, endDate, budget } = req.body;
-  
-      // Ensure userId is a valid ObjectId
-      if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ message: "Invalid userId" });
-      }
-  
-      // Find the user by userId
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(400).json({ message: "User not found" });
-      }
-  
-      // Create the new month object
-      const newMonth = {
-        monthTitle,
-        startDate,
-        endDate,
-        budget
-      };
-  
-      // Push the new month to the user's months array
-      user.months.push(newMonth);
-  
-      // Save the user with the new month added
-      await user.save();
-  
-      res.status(201).json({ message: "Month added successfully", month: newMonth });
-    } catch (error) {
-      console.error("Error adding month:", error);
-      res.status(500).json({ message: "Error adding month", error: error.message });
-    }
-  };
-  
+  try {
+    const { userId, monthTitle, startDate, endDate, budget } = req.body;
 
-  // Controller.js
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid userId" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    const newMonth = {
+      _id: new mongoose.Types.ObjectId(), // Generate unique ID for the month
+      monthTitle,
+      startDate,
+      endDate,
+      budget
+    };
+
+    user.months.push(newMonth);
+    await user.save();
+
+    res.status(201).json({ message: "Month added successfully", month: newMonth });
+  } catch (error) {
+    console.error("Error adding month:", error);
+    res.status(500).json({ message: "Error adding month", error: error.message });
+  }
+};
 
 // Fetch user's months
 const getUserMonths = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.userId).select("months");
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        res.status(200).json({ months: user.months });
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching months", error: error.message });
+  try {
+    const user = await User.findById(req.params.userId).select("months");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+    res.status(200).json({ months: user.months });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching months", error: error.message });
+  }
 };
 
-module.exports = { createUser, loginUser, addMonth, getUserMonths };
+// Delete Month logic
+const deleteMonth = async (req, res) => {
+  try {
+    const { userId, monthId } = req.params;
 
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(monthId)) {
+      return res.status(400).json({ message: "Invalid userId or monthId" });
+    }
 
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Filter out the month to be deleted
+    user.months = user.months.filter((month) => month._id.toString() !== monthId);
+
+    await user.save();
+    res.status(200).json({ message: "Month deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting month:", error);
+    res.status(500).json({ message: "Error deleting month", error: error.message });
+  }
+};
+
+module.exports = { createUser, loginUser, addMonth, getUserMonths, deleteMonth };

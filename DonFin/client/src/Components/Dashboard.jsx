@@ -8,17 +8,15 @@ function Dashboard() {
     const [months, setMonths] = useState([]);
     const navigate = useNavigate();
 
-    // Get user data from localStorage (assuming the user is logged in and user data is stored there)
     const user = JSON.parse(localStorage.getItem('user'));
 
-    // Fetch user's months on component mount
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:8000/api/users/${user._id}/months`) // Make sure the URL matches your API route
+            fetch(`http://localhost:8000/api/users/${user._id}/months`)
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.months) {
-                        setMonths(data.months); // Assuming the response has a 'months' field
+                        setMonths(data.months);
                     } else {
                         console.log("No months found for this user");
                     }
@@ -31,6 +29,28 @@ function Dashboard() {
         navigate("/addmonth"); 
     };
 
+    const handleDelete = async (monthId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this month?");
+        if (!confirmDelete) return;
+
+        try {
+            const response = await fetch(`http://localhost:8000/api/users/${user._id}/delete-month/${monthId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                setMonths(months.filter((month) => month._id !== monthId));
+            } else {
+            }
+        } catch (error) {
+            console.error("Error deleting month:", error);
+            alert("Error deleting month.");
+        }
+    };
+
     return (
         <div className="dashboard-container">
             <TopBar />
@@ -39,15 +59,15 @@ function Dashboard() {
                 <div className="main-content">
                     <h1>Your Months</h1>
 
-                    {/* Display the user's months */}
                     <div className="months-list">
                         {months.length > 0 ? (
-                            months.map((month, index) => (
-                                <div key={index} className="month-card">
+                            months.map((month) => (
+                                <div key={month._id} className="month-card">
                                     <h3>{month.monthTitle}</h3>
                                     <p>Start Date: {new Date(month.startDate).toLocaleDateString()}</p>
                                     <p>End Date: {new Date(month.endDate).toLocaleDateString()}</p>
                                     <p>Budget: {month.budget}</p>
+                                    <button className="delete-btn" onClick={() => handleDelete(month._id)}>Delete</button>
                                 </div>
                             ))
                         ) : (
@@ -55,8 +75,6 @@ function Dashboard() {
                         )}
                         <div className="addmonth" onClick={addBox}>+</div>
                     </div>
-
-                    
                 </div>
             </div>
         </div>
