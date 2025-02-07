@@ -1,5 +1,6 @@
 require('dotenv').config();
 require('./config/mongoose.config'); 
+const userRoutes = require('./routes/Routes');
 
 const express = require('express');
 const app = express();
@@ -9,9 +10,8 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json(), express.urlencoded({ extended: true }));
 
-    const userRoutes = require('./routes/Routes');
+app.use('/api/users', userRoutes);
 
-    app.use(userRoutes); 
 
 
 

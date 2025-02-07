@@ -13,7 +13,7 @@ function TopBar() {
         <Link to="/" className="nav-link">Home</Link>
         <Link to="/faq" className="nav-link">FAQ</Link>
         <a href="/login" className="login-btn nav-link">Login</a>
-        <a href="/register" className="register-btn nav-link">Register</a>
+        <Link to="/register" className="register-btn nav-link">Register</Link>
       </nav>
     </div>
   );
