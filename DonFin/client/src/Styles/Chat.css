@@ -1,0 +1,133 @@
+/* Container for the entire dashboard */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f7fc;
+}
+
+/* Main content container that holds the sidebar and the main content */
+.dashboard-content {
+    display: flex;
+    flex: 1;
+}
+
+/* Main content box */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Heading styles */
+h2 {
+    color: #1a242f;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Active users list */
+.users-list h3 {
+    color: #00a99d;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Styling the user list */
+.users-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.users-list li {
+    color: #1a242f;
+    padding: 5px 0;
+    font-size: 16px;
+}
+
+/* Chat box area */
+.chat-box {
+    margin-top: 20px;
+}
+
+/* Messages container */
+.messages {
+    background-color: #f1f1f1;
+    padding: 10px;
+    height: 300px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Individual message styling */
+.messages p {
+    margin: 5px 0;
+    color: #333;
+}
+
+/* Input container for the message input field and the send button */
+.chat-input-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Message input field */
+.chat-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+}
+
+/* Focused input field */
+.chat-input:focus {
+    border-color: #00a99d;
+    outline: none;
+}
+
+/* Send button styles */
+.send-button {
+    padding: 10px 20px;
+    background-color: #00a99d;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the send button */
+.send-button:hover {
+    background-color: #1a242f;
+}
+
+/* Active effect for the send button */
+.send-button:active {
+    background-color: #005f55;
+}
+
+/* Responsiveness: Make sure chat box messages are scrollable and input fields have enough space */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .chat-input-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .send-button {
+        width: 100%;
+    }
+}

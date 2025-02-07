@@ -14,8 +14,19 @@
   }
 
   .delete-btn {
-    background-color: #ff4d4d00; /* Red for delete */
+    background-color: #ff4d4d00;
     color: rgb(255, 0, 0);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 14px;
+    margin-top: 10px;
+}
+.view-btn {
+    background-color: #ff4d4d00; 
+    color: #008d84;
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
@@ -56,6 +67,7 @@
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 200px; /* Width of each month card */
+    height: 200px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -79,8 +91,8 @@
   
   /* Styling for the add month button */
   .addmonth {
-    width: 200px;
-    height: 200px;
+    width: 230px;
+    height: 230px;
     border: 2px dashed rgba(0, 0, 0, 0.356); /* Dashed border */
     border-radius: 30px;
     font-size: 24px;

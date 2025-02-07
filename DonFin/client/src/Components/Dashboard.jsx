@@ -67,7 +67,10 @@ function Dashboard() {
                                     <p>Start Date: {new Date(month.startDate).toLocaleDateString()}</p>
                                     <p>End Date: {new Date(month.endDate).toLocaleDateString()}</p>
                                     <p>Budget: {month.budget}</p>
+                                    <div style={{display:"flex"}}>
                                     <button className="delete-btn" onClick={() => handleDelete(month._id)}>Delete</button>
+                                    <button className="view-btn">View</button>
+                                    </div>
                                 </div>
                             ))
                         ) : (
