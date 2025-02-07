@@ -7,6 +7,7 @@ import Register from "./Components/Register";
 import Login from "./Components/Login";
 import Dashboard from "./Components/Dashboard";
 import Transfer from "./Components/Transfer";
+import AddMonth from "./Components/AddMonth";
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transfer" element={<Transfer />} />
+          <Route path="/addmonth" element={<AddMonth />} />
         </Routes>
       </Router>
     );

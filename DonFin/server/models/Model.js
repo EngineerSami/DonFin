@@ -1,4 +1,31 @@
+//Models.js
+
 const mongoose = require('mongoose');
+
+const MonthSchema = new mongoose.Schema(
+  {
+    monthTitle: {
+      type: String,
+      required: [true, 'Month title is required.'],
+      minlength: [3, 'Month title must be at least 3 characters long.'],
+      maxlength: [50, 'Month title cannot exceed 50 characters.'],
+    },
+    startDate: {
+      type: Date,
+      required: [true, 'Start date is required.'],
+    },
+    endDate: {
+      type: Date,
+      required: [true, 'End date is required.'],
+    },
+    budget: {
+      type: Number,
+      required: [true, 'Budget is required.'],
+      min: [0, 'Budget must be greater than or equal to 0.'],
+    },
+  },
+  { timestamps: true }
+);
 
 const UserSchema = new mongoose.Schema(
   {
@@ -29,6 +56,7 @@ const UserSchema = new mongoose.Schema(
       minlength: [8, 'Password must be at least 8 characters long.'],
       trim: true,
     },
+    months: [MonthSchema], // Array of months
   },
   { timestamps: true }
 );

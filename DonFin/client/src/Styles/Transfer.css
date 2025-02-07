@@ -3,15 +3,13 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f4f4f4;
+    background-color: white;
   }
   
   /* Header and Sidebar Container */
   .dashboard-content {
     display: flex;
     flex-grow: 1;
-    padding: 20px;
-    background-color: #1a242f;
     color: white;
   }
   
@@ -19,7 +17,6 @@
   .main-content {
     flex-grow: 1;
     background-color: white;
-    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 30px;
     margin-left: 13%;
