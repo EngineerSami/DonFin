@@ -105,4 +105,55 @@ const deleteMonth = async (req, res) => {
   }
 };
 
-module.exports = { createUser, loginUser, addMonth, getUserMonths, deleteMonth };
+// Edit User logic
+const editUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { firstName, lastName, email } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid userId" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { firstName, lastName, email },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User updated successfully", user });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ message: "Error updating user", error: error.message });
+  }
+};
+
+
+const getUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid userId format" });
+    }
+
+    const user = await User.findById(userId); 
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Error fetching user", error: error.message });
+  }
+};
+
+
+
+
+
+module.exports = { createUser, loginUser, addMonth, getUserMonths, deleteMonth, editUser, getUser };

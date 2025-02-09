@@ -1,0 +1,120 @@
+/* EditUser.css */
+
+
+  .dashboard-content {
+    display: flex;
+    width: 100%;
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title */
+  .edit-user-container h2 {
+    font-size: 2rem;
+    color: #1a242f;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .edit-user-container {
+    margin-left: 40%;
+    margin-top: 20%;
+    width: 400px;
+    text-align: center; 
+  }
+  /* Form */
+  .edit-user-container form {
+    width: 100%;
+    max-width: 500px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  label {
+    display: block;
+    font-size: 1rem;
+    color: #1a242f;
+    margin-bottom: 5px;
+  }
+  
+  /* Form Input Fields */
+  .edit-user-container input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #00a99d;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    margin-bottom: 15px;
+    max-width: 300px;
+  }
+  
+  .edit-user-container input:focus {
+    outline: none;
+    border-color: #00a99d;
+    box-shadow: 0 0 5px rgba(0, 169, 157, 0.5);
+  }
+  
+  /* Error messages */
+  .edit-user-container p {
+    font-size: 0.9rem;
+    color: red;
+    margin-top: 5px;
+  }
+  
+  /* Submit button */
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #00a99d;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    max-width: 300px;
+  }
+  
+  button:hover {
+    background-color: #1a242f;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  /* Success or error message */
+  .alert {
+    padding: 10px;
+    color: white;
+    background-color: #00a99d;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Adjust for responsiveness */
+  @media (max-width: 768px) {
+    .main-content {
+      padding: 15px;
+    }
+  
+    .edit-user-container form {
+      padding: 15px;
+    }
+  
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+  

@@ -25,7 +25,7 @@ function TopBar() {
 
         {isLoggedIn ? (
           <>
-          <Link to="/dashboard" className="nav-link">User Dashboard</Link>
+          <Link to="/dashboard" className="nav-link" style={{    minWidth:"117px"}}>User Dashboard</Link>
           <button onClick={handleLogout} className="login-btn nav-link">Logout</button>
           </>
         ) : (

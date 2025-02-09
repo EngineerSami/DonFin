@@ -9,6 +9,7 @@ import Dashboard from "./Components/Dashboard";
 import Transfer from "./Components/Transfer";
 import AddMonth from "./Components/AddMonth";
 import Chat from "./Components/Chat";
+import EditUser from "./Components/EditUser";
 
 const App = () => {
     return (
@@ -22,7 +23,8 @@ const App = () => {
           <Route path="/transfer" element={<Transfer />} />
           <Route path="/addmonth" element={<AddMonth />} />
           <Route path="/chat" element={<Chat />} />
-        </Routes>
+          <Route path="/edit-user/:userId" element={<EditUser />} />
+         </Routes>
       </Router>
     );
 };

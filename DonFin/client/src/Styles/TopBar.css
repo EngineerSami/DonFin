@@ -6,7 +6,7 @@
     padding: 15px 30px;
     background: linear-gradient(45deg, #00a99d, #1a242f); /* Gradient background for a modern look */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    width: 99%;
+    width: 98%;
     position: fixed;
     top: 0;
     z-index: 100;
