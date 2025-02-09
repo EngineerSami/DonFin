@@ -1,37 +1,39 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";  // Import useNavigate
+import { useParams, useNavigate } from "react-router-dom"; 
 import Sidebar from "./SideBar";
 import TopBar from "./TopBar";
 import "../Styles/EditUser.css";
 
 const EditUser = () => {
   const { userId } = useParams();
-  const navigate = useNavigate();  // Initialize useNavigate hook
+  const navigate = useNavigate(); 
   const [userData, setUserData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [formErrors, setFormErrors] = useState({}); // Add form validation state
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     const fetchUser = async () => {
-      setLoading(true); // Set loading to true while fetching
+      setLoading(true);
       try {
         const { data } = await axios.get(`http://localhost:8000/api/users/${userId}`);
         setUserData({
-          firstName: data.user.firstName,
-          lastName: data.user.lastName,
           email: data.user.email,
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
         });
       } catch (err) {
         setError("Failed to fetch user data. Please try again.");
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
 
@@ -44,9 +46,15 @@ const EditUser = () => {
 
   const validateForm = () => {
     let errors = {};
-    if (!userData.firstName) errors.firstName = "First name is required.";
-    if (!userData.lastName) errors.lastName = "Last name is required.";
     if (!userData.email) errors.email = "Email is required.";
+
+    // Password validation
+    if (userData.oldPassword && userData.newPassword) {
+      if (userData.newPassword !== userData.confirmPassword) {
+        errors.password = "New password and confirm password do not match.";
+      }
+    }
+
     return errors;
   };
 
@@ -61,17 +69,38 @@ const EditUser = () => {
       return;
     }
 
-    setLoading(true); // Set loading to true during submission
+    setLoading(true);
     try {
+      const formData = { ...userData };
+
+      // Only include password fields if they are provided and validated
+      if (userData.oldPassword && userData.newPassword) {
+        // Check if the old password matches the one stored in the database
+        const { data } = await axios.get(`http://localhost:8000/api/users/${userId}`);
+        
+        // If the old password does not match, return an error message
+        if (data.user.password !== userData.oldPassword) {
+          setError("Old password is incorrect.");
+          setLoading(false);
+          return;
+        }
+
+        // Prepare form data with the old and new password
+        formData.oldPassword = userData.oldPassword;
+        formData.newPassword = userData.newPassword;
+      }
+
+      // Send the form data to the backend, ensuring to include the password if needed
       const response = await axios.put(
         `http://localhost:8000/api/users/${userId}/edit`,
-        userData
+        formData
       );
       setMessage(response.data.message || "User updated successfully!");
-      // Redirect to /dashboard after successful submission
+      // Redirect to /login after successful submission
       setTimeout(() => {
         localStorage.removeItem('user');
-        navigate('/login');      },)
+        navigate('/login');
+      }, );
     } catch (err) {
       setError("Failed to update user. Please try again.");
     } finally {
@@ -93,28 +122,6 @@ const EditUser = () => {
             {error && <p style={{ color: "red" }}>{error}</p>}
             <form onSubmit={handleSubmit}>
               <label>
-                First Name: <br />
-                <input
-                  type="text"
-                  name="firstName"
-                  value={userData.firstName}
-                  onChange={handleChange}
-                  required
-                />
-                {formErrors.firstName && <p style={{ color: "red" }}>{formErrors.firstName}</p>}
-              </label>
-              <label>
-                Last Name: <br />
-                <input
-                  type="text"
-                  name="lastName"
-                  value={userData.lastName}
-                  onChange={handleChange}
-                  required
-                />
-                {formErrors.lastName && <p style={{ color: "red" }}>{formErrors.lastName}</p>}
-              </label>
-              <label>
                 Email: <br />
                 <input
                   type="email"
@@ -125,6 +132,37 @@ const EditUser = () => {
                 />
                 {formErrors.email && <p style={{ color: "red" }}>{formErrors.email}</p>}
               </label>
+
+              {/* Password Fields */}
+              <label>
+                Old Password: <br />
+                <input
+                  type="password"
+                  name="oldPassword"
+                  value={userData.oldPassword}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                New Password: <br />
+                <input
+                  type="password"
+                  name="newPassword"
+                  value={userData.newPassword}
+                  onChange={handleChange}
+                />
+                {formErrors.password && <p style={{ color: "red" }}>{formErrors.password}</p>}
+              </label>
+              <label>
+                Confirm New Password: <br />
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={userData.confirmPassword}
+                  onChange={handleChange}
+                />
+              </label>
+
               <button type="submit" disabled={loading}>
                 {loading ? "Saving..." : "Save Changes"}
               </button>

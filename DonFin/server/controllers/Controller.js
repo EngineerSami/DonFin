@@ -109,22 +109,34 @@ const deleteMonth = async (req, res) => {
 const editUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { firstName, lastName, email } = req.body;
+    const { firstName, lastName, email, oldPassword, newPassword } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({ message: "Invalid userId" });
     }
 
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { firstName, lastName, email },
-      { new: true, runValidators: true }
-    );
-
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // If old password is provided, verify it first
+    if (oldPassword && newPassword) {
+      if (oldPassword !== user.password) {
+        return res.status(400).json({ message: "Old password is incorrect" });
+      }
+
+      // Update the password directly (no hashing)
+      user.password = newPassword;
+    }
+
+    // Update other fields if provided
+    user.firstName = firstName || user.firstName;
+    user.lastName = lastName || user.lastName;
+    user.email = email || user.email;
+
+    // Save the updated user
+    await user.save();
     res.status(200).json({ message: "User updated successfully", user });
   } catch (error) {
     console.error("Error updating user:", error);
