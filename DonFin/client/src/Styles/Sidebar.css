@@ -19,6 +19,17 @@
     color: white;
     background-color: #00a99d; /* Light teal for the username section */
   }
+
+  .notification-badge {
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 50%;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
   
   .sidebar-user-name {
     font-weight: bold;

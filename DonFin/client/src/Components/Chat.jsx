@@ -1,59 +1,83 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import TopBar from "./TopBar";
 import Sidebar from "./SideBar";
 import "../Styles/Chat.css";
 
-const socket = io.connect("http://localhost:8000"); // Change this to your server URL
+const SERVER_URL = "http://localhost:8000"; // Change this to your server URL
 
 function Chat() {
     const [username, setUsername] = useState("");
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [users, setUsers] = useState([]);
-    
+    const messagesEndRef = useRef(null);
+    const [unreadCount, setUnreadCount] = useState(0);
+    const socketRef = useRef(null);
+
     useEffect(() => {
-        // Only establish socket connection once
-        if (!socket.connected) {
-            socket.connect();
+        const handleFocus = () => {
+            setUnreadCount(0);
+            socketRef.current.emit("message_read", { username });
+        };
+    
+        window.addEventListener("focus", handleFocus);
+        return () => window.removeEventListener("focus", handleFocus);
+    }, []);
+    
+
+    useEffect(() => {
+        if (!socketRef.current) {
+            socketRef.current = io.connect(SERVER_URL);
         }
+        const socket = socketRef.current;
 
-        // Get user data from localStorage
-        const user = JSON.parse(localStorage.getItem('user'));
-        const userName = user ? `${user.firstName} ${user.lastName}` : "Guest";
-        const firstName = userName.split(' ')[0];  // Extract first name from full name
+        const user = JSON.parse(localStorage.getItem("user"));
+        const fullName = user ? `${user.firstName} ${user.lastName}` : "Guest";
+        const firstName = fullName.split(" ")[0];
 
-        // Set the username and emit to join the chat
-        if (firstName) {
+        if (firstName && firstName !== "Guest") {
             setUsername(firstName);
-            socket.emit("join_chat", firstName); // Emit first name to join the chat
+            socket.emit("join_chat", firstName);
         }
 
-        // Listen for updated user list from the server
+        socket.on("previous_messages", (prevMessages) => {
+            setMessages(prevMessages);
+        });
+
         socket.on("user_list", (userList) => {
+            console.log("Updated user list:", userList);
             setUsers(userList);
         });
 
-        // Listen for incoming messages
         socket.on("receive_message", (data) => {
+            if (document.hidden) { // If the user is not focused on the tab
+                setUnreadCount((prevCount) => prevCount + 1);
+                new Notification("New Message", { body: `${data.username}: ${data.message}` });
+            }
             setMessages((prevMessages) => [...prevMessages, data]);
         });
+        
 
-        // Cleanup: disconnect socket when component is unmounted
         return () => {
-            socket.off("user_list"); // Remove event listener
-            socket.off("receive_message"); // Remove event listener
-            socket.disconnect(); // Disconnect socket on cleanup
+            socket.off("previous_messages");
+            socket.off("user_list");
+            socket.off("receive_message");
+            socket.disconnect();
+            socketRef.current = null;
         };
-    }, []); // Empty dependency array to run the effect only once
+    }, []);
+
+    // Scroll to the latest message when messages update
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     const sendMessage = () => {
         if (message.trim() !== "") {
-            // Create message object
             const chatMessage = { username, message };
-            // Emit the message to the server
-            socket.emit("send_message", chatMessage);
-            setMessage(""); // Clear input field after sending
+            socketRef.current.emit("send_message", chatMessage);
+            setMessage("");
         }
     };
 
@@ -65,36 +89,26 @@ function Chat() {
                 <div className="main-content">
                     <h2>Chat Room</h2>
 
-                    <div className="users-list">
-                        <h3>Active Users:</h3>
-                        <ul>
-                            {users.length > 0 ? (
-                                users.map((user, index) => (
-                                    <li key={index}>{user.username}</li>
-                                ))
-                            ) : (
-                                <li>No active users</li>
-                            )}
-                        </ul>
-                    </div>
-
                     <div className="chat-box">
                         <div className="messages">
                             {messages.map((msg, index) => (
-                                <p key={index}>
-                                    <strong>{msg.username}:</strong> {msg.message}
+                                <p key={index} className={msg.username === username ? "own-message" : ""}>
+                                    <strong>{msg.username}:</strong> {msg.message} <br />
+                                    <span className="time">{new Date(msg.timestamp).toLocaleTimeString()}</span>
                                 </p>
                             ))}
+                            <div ref={messagesEndRef} />
                         </div>
 
                         <div className="chat-input-container">
-                            <input
-                                type="text"
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                placeholder="Type a message..."
-                                className="chat-input"
-                            />
+                        <input
+                        type="text"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                        placeholder="Type a message..."
+                        className="chat-input"
+                        />
                             <button onClick={sendMessage} className="send-button">Send</button>
                         </div>
                     </div>

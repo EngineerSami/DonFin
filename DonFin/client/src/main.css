@@ -3,4 +3,5 @@ body {
     padding: 0; /* Removes any padding */
     box-sizing: border-box; /* Makes sure that padding and border are included in the element's total width and height */
     font-family: Arial, sans-serif; /* Set a default font if needed */
+    overflow-x: hidden;
 }

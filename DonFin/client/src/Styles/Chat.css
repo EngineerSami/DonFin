@@ -1,3 +1,5 @@
+
+
 /* Container for the entire dashboard */
 .dashboard-container {
     display: flex;
@@ -19,6 +21,9 @@
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 /* Heading styles */
@@ -35,7 +40,6 @@ h2 {
     margin-bottom: 10px;
 }
 
-/* Styling the user list */
 .users-list ul {
     list-style-type: none;
     padding: 0;
@@ -50,36 +54,61 @@ h2 {
 
 /* Chat box area */
 .chat-box {
-    margin-top: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+}
+
+.time{
+    font-size: 13px;
+    color: #ffffff93;
 }
 
 /* Messages container */
 .messages {
     background-color: #f1f1f1;
     padding: 10px;
-    height: 300px;
-    overflow-y: scroll;
-    margin-bottom: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 18px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Individual message styling */
 .messages p {
-    margin: 5px 0;
-    color: #333;
+    margin: 10px 0;
+    color: #fff;
+    background-color: #00a99d;
+    padding: 10px;
+    border-radius: 20px;
+    max-width: 60%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    display: block;
+    align-self: flex-start;
 }
 
-/* Input container for the message input field and the send button */
+/* Align messages to the right if sent by the user */
+.messages .own-message {
+    background-color: #1a242f;
+    align-self: flex-end;
+}
+
+/* Input container */
 .chat-input-container {
     display: flex;
     gap: 10px;
     align-items: center;
+    padding-top: 10px;
 }
 
-/* Message input field */
 .chat-input {
-    width: 100%;
+    flex: 1;
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ddd;
@@ -88,13 +117,11 @@ h2 {
     background-color: #fff;
 }
 
-/* Focused input field */
 .chat-input:focus {
     border-color: #00a99d;
     outline: none;
 }
 
-/* Send button styles */
 .send-button {
     padding: 10px 20px;
     background-color: #00a99d;
@@ -106,27 +133,37 @@ h2 {
     transition: background-color 0.3s ease;
 }
 
-/* Hover effect for the send button */
 .send-button:hover {
     background-color: #1a242f;
 }
 
-/* Active effect for the send button */
 .send-button:active {
     background-color: #005f55;
 }
 
-/* Responsiveness: Make sure chat box messages are scrollable and input fields have enough space */
+/* Scrollbar Styling */
+.messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background-color: #00a99d;
+    border-radius: 10px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* Responsiveness */
 @media (max-width: 768px) {
     .main-content {
         padding: 10px;
     }
-
     .chat-input-container {
         flex-direction: column;
         gap: 5px;
     }
-
     .send-button {
         width: 100%;
     }
