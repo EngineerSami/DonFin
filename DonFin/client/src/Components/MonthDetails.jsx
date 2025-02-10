@@ -29,8 +29,7 @@ const MonthDetails = () => {
         } else {
           setCurrentBudget(Number(storedBudget));
         }
-        
-        // Calculate total cost from the expenses
+
         if (response.data.expenses && response.data.expenses.length > 0) {
           const totalCost = response.data.expenses.reduce((acc, expense) => acc + expense.cost, 0);
           setTotalCost(totalCost);
@@ -54,9 +53,7 @@ const MonthDetails = () => {
     localStorage.setItem(`currentBudget-${userId}-${monthId}`, newBudget);
 
     try {
-      await axios.put(`http://localhost:8000/api/users/${userId}/month/${monthId}`, {
-        currentBudget: newBudget,
-      });
+      await axios.put(`http://localhost:8000/api/users/${userId}/month/${monthId}`, { currentBudget: newBudget });
     } catch (error) {
       setError("Failed to update the budget. Please try again.");
     }
@@ -66,14 +63,14 @@ const MonthDetails = () => {
     navigate(`/users/${userId}/month/${monthId}/create-expense`);
   };
 
-  // Recalculate the total cost and budget after returning from the add expense page
+  // Recalculate total cost and current budget whenever expenses are updated
   useEffect(() => {
     if (month && month.expenses) {
       const updatedTotalCost = month.expenses.reduce((acc, expense) => acc + expense.cost, 0);
       setTotalCost(updatedTotalCost);
       setCurrentBudget(budget - updatedTotalCost);
     }
-  }, [month]);
+  }, [month, budget]);
 
   if (loading) return <p>Loading month details...</p>;
   if (error) return <p className="error">{error}</p>;
@@ -94,45 +91,79 @@ const MonthDetails = () => {
             </div>
             <div className="right">
               <h1>Current Budget: {currentBudget}</h1>
-              <h1>Total expense: {totalCost}</h1>
+              <h1>Total Expense: {totalCost}</h1>
             </div>
           </div>
 
-          {/* Expenses Section */} 
-          <div className="month-details" style={{display: "block"}}>
+          {/* Expenses Section */}
+          <div className="month-details" style={{ display: "block" }}>
             <div className="expenses-header">
               <h2>Expenses</h2>
               <button onClick={addExpense} className="create-expense-btn">+ Add Expense</button>
             </div>
 
             {month.expenses && month.expenses.length > 0 ? (
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Expense Type</th>
-                        <th>Description</th>
-                        <th>Cost</th>
-                        <th>Date</th>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Expense Type</th>
+                    <th>Description</th>
+                    <th>Cost</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {month.expenses.slice().reverse().map((expense) => (
+                    <tr key={expense._id}>
+                      <td>{expense.type}</td>
+                      <td>{expense.description}</td>
+                      <td>{expense.cost}</td>
+                      <td>{new Date(expense.date).toLocaleDateString()}</td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {month.expenses
-                        .slice()  // Create a shallow copy of the array to avoid mutating the original
-                        .reverse()  // Reverse the array so the last added expense comes first
-                        .map((expense) => (
-                        <tr key={expense._id}>
-                            <td>{expense.type}</td>
-                            <td>{expense.description}</td>
-                            <td>{expense.cost}</td>
-                            <td>{new Date(expense.date).toLocaleDateString()}</td>
-                        </tr>
-                        ))}
-                    </tbody>
-                </table>
-                ) : (
-                <p>No expenses recorded for this month.</p>
-                )}
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No expenses recorded for this month.</p>
+            )}
+          </div>
 
+          {/* Expense Types & Total Cost Section */}
+          <div className="month-details" style={{ display: "block" }}>
+            <h2>Expense Types & Total Cost</h2>
+            {month.expenses && month.expenses.length > 0 ? (
+              <ul>
+                {Object.entries(
+                  month.expenses.reduce((acc, expense) => {
+                    const type = expense.type.toLowerCase();
+                    if (!acc[type]) {
+                      acc[type] = { originalType: expense.type, totalCost: 0 };
+                    }
+                    acc[type].totalCost += expense.cost;
+                    return acc;
+                  }, {})
+                ).map(([_, { originalType, totalCost }]) => {
+                  const percentage = budget > 0 ? ((totalCost / budget) * 100).toFixed(2) : 0;
+                  return (
+                  <div className="typescost" key={originalType} style={{ color: "black" }}>
+                    <div className="circle-container">
+                      <div className="circle-background"></div>
+                      <div
+                        className="circle-foreground"
+                        style={{
+                          transform: `rotate(${(percentage / 100) * 360}deg)`,  // Rotating based on the percentage
+                        }}
+                      ></div>
+                      <div className="circle-text">{percentage}%</div>
+                    </div>
+                    {originalType}: ${totalCost} <br /> <br />
+                  </div>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p>No expenses recorded for this month.</p>
+            )}
           </div>
         </div>
       </div>

@@ -134,3 +134,60 @@ table td {
         text-align: center;
     }
 }
+
+.typescost{
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* Circular Progress Bar Container */
+.circle-container {
+    position: relative;
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+/* Half Circles for Progress */
+.circle-foreground {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 6px solid #00a99d; /* Green color for the progress */
+    transform-origin: center center; /* Ensures rotation occurs around the center */
+  }
+  
+  /* Circle Background (no rotation) */
+  .circle-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 6px solid #e0e0e0; /* Light gray border for the background */
+  }
+  
+  
+  /* Right Half Circle */
+  .circle-right {
+    transform: rotate(90deg); /* Start from the right side */
+  }
+  
+  /* Percentage Text Styling */
+  .circle-text {
+    position: absolute;
+    color: #333;
+    font-size: 20px; /* Adjust font size as needed */
+    font-weight: bold;
+  }
