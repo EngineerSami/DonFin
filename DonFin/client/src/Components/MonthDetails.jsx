@@ -156,7 +156,7 @@ const MonthDetails = () => {
                       ></div>
                       <div className="circle-text">{percentage}%</div>
                     </div>
-                    <h2>{originalType}: ${totalCost} <br /> <br /></h2>
+                    <h2>{originalType}: {totalCost} <br /> <br /></h2>
                   </div>
                   );
                 })}
