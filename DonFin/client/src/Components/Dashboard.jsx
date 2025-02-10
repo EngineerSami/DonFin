@@ -71,7 +71,7 @@ function Dashboard() {
                                     <p>End Date: {new Date(month.endDate).toLocaleDateString()}</p>
                                     <p>Budget: {month.budget}</p>
                                     <div style={{ display: "flex" }}>
-                                        <button className="delete-btn" onClick={() => handleDelete(month._id)}>Delete</button>
+                                        <Link className="delete-btn" onClick={() => handleDelete(month._id)}>Delete</Link>
                                         <Link to={`/month-details/${user._id}/${month._id}`} className="view-btn">View</Link>
                                     </div>
                                 </div>

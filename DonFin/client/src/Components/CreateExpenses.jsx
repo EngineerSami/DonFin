@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "../Styles/CreateExpenses.css";
 import Sidebar from "./SideBar";
@@ -72,15 +72,14 @@ const CreateExpenses = () => {
       <TopBar />
       <div className="dashboard-content">
         <Sidebar />
-        <div className="main-content">
+        <div className="main-expense">
           <h2>Add Expense</h2>
 
-          {/* Display error or success messages */}
           {error && <p className="error">{error}</p>}
           {success && <p className="success">{success}</p>}
 
-          {/* Expense form */}
           <form onSubmit={handleSubmit} className="expense-form">
+            <Link to={`/month-details/${userId}/${monthId}`} className="view-btn"   >{"< "} back to your month</Link>
             <div className="form-group">
               <label>Expense Type</label>
               <input
