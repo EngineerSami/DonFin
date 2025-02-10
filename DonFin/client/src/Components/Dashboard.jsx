@@ -2,22 +2,20 @@ import React, { useEffect, useState } from "react";
 import TopBar from "./TopBar";
 import Sidebar from "./SideBar"; 
 import "../Styles/Dashboard.css"; 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Dashboard() {
     const [months, setMonths] = useState([]);
     const navigate = useNavigate();
 
     const user = JSON.parse(localStorage.getItem('user'));
-
+    
     useEffect(() => {
-        // If the user is not logged in, redirect to the root route "/"
-        if (!user) {
-            navigate("/login");  // Redirect to home page (login or landing page)
-            return; // Exit early
+        if (!user || !user._id) {
+            navigate("/login");
+            return;
         }
 
-        // Fetch the months data if the user is logged in
         fetch(`http://localhost:8000/api/users/${user._id}/months`)
             .then((response) => response.json())
             .then((data) => {
@@ -28,7 +26,7 @@ function Dashboard() {
                 }
             })
             .catch((error) => console.error("Error fetching months:", error));
-    }, [user, navigate]); // Ensure the effect is called again if user or navigate changes
+    }, [navigate, user]);
 
     const addBox = () => {
         navigate("/addmonth"); 
@@ -64,7 +62,6 @@ function Dashboard() {
                 <Sidebar />
                 <div className="main-content">
                     <h1>Your Months</h1>
-
                     <div className="months-list">
                         {months.length > 0 ? (
                             months.map((month) => (
@@ -73,14 +70,14 @@ function Dashboard() {
                                     <p>Start Date: {new Date(month.startDate).toLocaleDateString()}</p>
                                     <p>End Date: {new Date(month.endDate).toLocaleDateString()}</p>
                                     <p>Budget: {month.budget}</p>
-                                    <div style={{display:"flex"}}>
-                                    <button className="delete-btn" onClick={() => handleDelete(month._id)}>Delete</button>
-                                    <button className="view-btn">View</button>
+                                    <div style={{ display: "flex" }}>
+                                        <button className="delete-btn" onClick={() => handleDelete(month._id)}>Delete</button>
+                                        <Link to={`/month-details/${user._id}/${month._id}`} className="view-btn">View</Link>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <p></p>
+                            <p>No months available. Click + to add one.</p>
                         )}
                         <div className="addmonth" onClick={addBox}>+</div>
                     </div>

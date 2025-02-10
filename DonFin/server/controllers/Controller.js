@@ -164,8 +164,30 @@ const getUser = async (req, res) => {
   }
 };
 
+const getMonthDetails = async (req, res) => {
+  try {
+    const { userId, monthId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(monthId)) {
+      return res.status(400).json({ message: "Invalid userId or monthId format" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const month = user.months.find((m) => m._id.toString() === monthId);
+    if (!month) {
+      return res.status(404).json({ message: "Month not found" });
+    }
+
+    res.status(200).json(month);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching month details", error: error.message });
+  }
+};
 
 
 
-
-module.exports = { createUser, loginUser, addMonth, getUserMonths, deleteMonth, editUser, getUser };
+module.exports = { createUser, loginUser, addMonth, getUserMonths, deleteMonth, editUser, getUser, getMonthDetails };

@@ -10,6 +10,7 @@ import Transfer from "./Components/Transfer";
 import AddMonth from "./Components/AddMonth";
 import Chat from "./Components/Chat";
 import EditUser from "./Components/EditUser";
+import MonthDetails from "./Components/MonthDetails";
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/transfer" element={<Transfer />} />
           <Route path="/addmonth" element={<AddMonth />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/month-details/:userId/:monthId" element={<MonthDetails />} />
           <Route path="/edit-user/:userId" element={<EditUser />} />
          </Routes>
       </Router>

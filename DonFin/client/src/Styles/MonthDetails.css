@@ -1,0 +1,85 @@
+/* MonthDetails.css */
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.dashboard-content {
+    display: flex;
+    flex: 1;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: flex-start;
+}
+
+.month-details {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 96%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* Left Section Styling */
+.month-details .left {
+    flex: 2; /* Takes more space */
+}
+
+/* Right Section Styling */
+.month-details .right {
+    flex: 1;
+    text-align: right;
+}
+
+/* Heading Styling */
+.month-details h2 {
+    font-size: 30px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Paragraph Styling */
+.month-details p {
+    font-size: 25px;
+    color: #555;
+    margin: 8px 0;
+}
+
+/* Strong Tag Styling */
+.month-details strong {
+    color: #222;
+}
+
+/* Error Message Styling */
+.error {
+    color: red;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .month-details {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .month-details .left,
+    .month-details .right {
+        flex: 1;
+        text-align: center;
+    }
+}
