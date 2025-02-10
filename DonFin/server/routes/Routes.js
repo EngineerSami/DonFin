@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser, loginUser, addMonth, getUserMonths, deleteMonth, editUser, getUser, getMonthDetails } = require('../controllers/Controller');
+const { createUser, loginUser, addMonth, getUserMonths, deleteMonth, editUser, getUser, getMonthDetails, updateMonthBudget, createExpense } = require('../controllers/Controller');
 const router = express.Router();
 
 // Register route
@@ -22,5 +22,11 @@ router.put("/:userId/edit", editUser);
 router.get("/:userId", getUser);
 
 router.get("/:userId/month/:monthId", getMonthDetails);
+
+// Update Month Budget route
+router.put("/:userId/month/:monthId", updateMonthBudget);
+
+router.post("/:userId/month/:monthId/add-expense", createExpense);
+
 
 module.exports = router;

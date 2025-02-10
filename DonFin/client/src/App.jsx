@@ -11,6 +11,7 @@ import AddMonth from "./Components/AddMonth";
 import Chat from "./Components/Chat";
 import EditUser from "./Components/EditUser";
 import MonthDetails from "./Components/MonthDetails";
+import CreateExpenses from "./Components/CreateExpenses";
 
 const App = () => {
     return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/chat" element={<Chat />} />
           <Route path="/month-details/:userId/:monthId" element={<MonthDetails />} />
           <Route path="/edit-user/:userId" element={<EditUser />} />
+          <Route path="/users/:userId/month/:monthId/create-expense" element={<CreateExpenses />} />
          </Routes>
       </Router>
     );

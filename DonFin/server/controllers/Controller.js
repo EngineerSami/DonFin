@@ -182,12 +182,75 @@ const getMonthDetails = async (req, res) => {
       return res.status(404).json({ message: "Month not found" });
     }
 
-    res.status(200).json(month);
+    res.status(200).json(month);  // Include currentBudget in the response
   } catch (error) {
     res.status(500).json({ message: "Error fetching month details", error: error.message });
   }
 };
 
+const updateMonthBudget = async (req, res) => {
+  try {
+    const { userId, monthId } = req.params;
+    const { currentBudget } = req.body;  // The new budget value
+
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(monthId)) {
+      return res.status(400).json({ message: "Invalid userId or monthId format" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const month = user.months.find((m) => m._id.toString() === monthId);
+    if (!month) {
+      return res.status(404).json({ message: "Month not found" });
+    }
+
+    month.currentBudget = currentBudget;  // Update the current budget
+
+    await user.save();  // Save the changes to the database
+
+    res.status(200).json({ message: "Budget updated successfully", month });
+  } catch (error) {
+    console.error("Error updating budget:", error);
+    res.status(500).json({ message: "Error updating budget", error: error.message });
+  }
+};
 
 
-module.exports = { createUser, loginUser, addMonth, getUserMonths, deleteMonth, editUser, getUser, getMonthDetails };
+const createExpense = async (req, res) => {
+  try {
+    const { userId, monthId } = req.params;
+    const { type, description, cost } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(monthId)) {
+      return res.status(400).json({ message: "Invalid userId or monthId" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const month = user.months.find((m) => m._id.toString() === monthId);
+    if (!month) return res.status(404).json({ message: "Month not found" });
+
+    // Validate that cost is a number and greater than zero
+    if (isNaN(cost) || cost <= 0) {
+      return res.status(400).json({ message: "Invalid cost value" });
+    }
+
+    const newExpense = { type, description, cost };
+    month.expenses.push(newExpense);
+    month.currentBudget -= cost; // Deduct from current budget
+
+    await user.save();
+    res.status(201).json({ message: "Expense added successfully", expense: newExpense });
+  } catch (error) {
+    res.status(500).json({ message: "Error adding expense", error: error.message });
+  }
+};
+
+
+
+
+module.exports = { createUser, loginUser, addMonth, getUserMonths, deleteMonth, editUser, getUser, getMonthDetails, updateMonthBudget, createExpense };

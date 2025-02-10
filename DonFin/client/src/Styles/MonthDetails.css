@@ -69,6 +69,57 @@
     text-align: center;
 }
 
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th,
+table td {
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+}
+
+/* Table Header Styling */
+table th {
+    background-color: #00a99d;
+    color: white;
+    font-weight: bold;
+}
+
+/* Table Row Styling */
+table tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+/* Table Cell Styling */
+table td {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    color: #333;
+}
+
+/* Button Styling */
+.budget-btn,
+.create-expense-btn {
+    background-color: #00a99d;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.budget-btn:hover,
+.create-expense-btn:hover {
+    background-color: #1a242f;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .month-details {

@@ -1,6 +1,30 @@
-//Models.js
-
 const mongoose = require('mongoose');
+
+const ExpensesSchema = new mongoose.Schema(
+  {
+    type: {
+      type: String,
+      required: [true, 'Expense type is required.'],
+      minlength: [3, 'Expense type must be at least 3 characters long.'],
+      maxlength: [50, 'Expense type cannot exceed 50 characters.'],
+    },
+    description: {
+      type: String, // Changed from Date to String
+      required: [true, 'Expense description is required.'],
+    },
+    date: {
+      type: Date,
+      required: [true, 'Expense date is required.'],
+      default: Date.now,
+    },
+    cost: {
+      type: Number,
+      required: [true, 'Expense cost is required.'],
+      min: [0, 'Expense cost must be greater than or equal to 0.'],
+    },
+  },
+  { timestamps: true }
+);
 
 const MonthSchema = new mongoose.Schema(
   {
@@ -23,9 +47,18 @@ const MonthSchema = new mongoose.Schema(
       required: [true, 'Budget is required.'],
       min: [0, 'Budget must be greater than or equal to 0.'],
     },
+    currentBudget: {
+      type: Number,
+      required: true,
+      default: function () {
+        return this.budget; // Ensures `currentBudget` is initialized with `budget`
+      },
+    },
+    expenses: [ExpensesSchema], // Array of expenses
   },
   { timestamps: true }
 );
+
 
 const UserSchema = new mongoose.Schema(
   {
