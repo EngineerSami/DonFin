@@ -12,12 +12,15 @@ const MonthDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentBudget, setCurrentBudget] = useState(null);
+  const [totalCost, setTotalCost] = useState(0);
+  const [budget, setBudget] = useState(0);
 
   useEffect(() => {
     const fetchMonthDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/api/users/${userId}/month/${monthId}`);
         setMonth(response.data);
+        setBudget(response.data.budget);
 
         const storedBudget = localStorage.getItem(`currentBudget-${userId}-${monthId}`);
         if (!storedBudget) {
@@ -26,6 +29,15 @@ const MonthDetails = () => {
         } else {
           setCurrentBudget(Number(storedBudget));
         }
+        
+        // Calculate total cost from the expenses
+        if (response.data.expenses && response.data.expenses.length > 0) {
+          const totalCost = response.data.expenses.reduce((acc, expense) => acc + expense.cost, 0);
+          setTotalCost(totalCost);
+        } else {
+          setTotalCost(0);
+        }
+
       } catch (error) {
         setError("Failed to fetch month details. Please try again later.");
       } finally {
@@ -37,26 +49,31 @@ const MonthDetails = () => {
   }, [userId, monthId]);
 
   const decreaseBudget = async () => {
-    if (currentBudget > 0) {
-      const newBudget = currentBudget - 1;
-      setCurrentBudget(newBudget);
-      localStorage.setItem(`currentBudget-${userId}-${monthId}`, newBudget);
+    const newBudget = budget - totalCost;
+    setCurrentBudget(newBudget);
+    localStorage.setItem(`currentBudget-${userId}-${monthId}`, newBudget);
 
-      try {
-        await axios.put(`http://localhost:8000/api/users/${userId}/month/${monthId}`, {
-          currentBudget: newBudget,
-        });
-      } catch (error) {
-        setError("Failed to update the budget. Please try again.");
-      }
-    } else {
-      setError("Budget cannot go below zero.");
+    try {
+      await axios.put(`http://localhost:8000/api/users/${userId}/month/${monthId}`, {
+        currentBudget: newBudget,
+      });
+    } catch (error) {
+      setError("Failed to update the budget. Please try again.");
     }
   };
 
   const addExpense = () => {
     navigate(`/users/${userId}/month/${monthId}/create-expense`);
   };
+
+  // Recalculate the total cost and budget after returning from the add expense page
+  useEffect(() => {
+    if (month && month.expenses) {
+      const updatedTotalCost = month.expenses.reduce((acc, expense) => acc + expense.cost, 0);
+      setTotalCost(updatedTotalCost);
+      setCurrentBudget(budget - updatedTotalCost);
+    }
+  }, [month]);
 
   if (loading) return <p>Loading month details...</p>;
   if (error) return <p className="error">{error}</p>;
@@ -77,6 +94,7 @@ const MonthDetails = () => {
             </div>
             <div className="right">
               <h1>Current Budget: {currentBudget}</h1>
+              <h1>Total expense: {totalCost}</h1>
             </div>
           </div>
 
@@ -88,29 +106,33 @@ const MonthDetails = () => {
             </div>
 
             {month.expenses && month.expenses.length > 0 ? (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Expense Type</th>
-                    <th>Description</th>
-                    <th>Cost</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {month.expenses.map((expense) => (
-                    <tr key={expense._id}>
-                      <td>{expense.type}</td>
-                      <td>{expense.description}</td>
-                      <td>{expense.cost}</td>
-                      <td>{new Date(expense.date).toLocaleDateString()}</td>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Expense Type</th>
+                        <th>Description</th>
+                        <th>Cost</th>
+                        <th>Date</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p>No expenses recorded for this month.</p>
-            )}
+                    </thead>
+                    <tbody>
+                    {month.expenses
+                        .slice()  // Create a shallow copy of the array to avoid mutating the original
+                        .reverse()  // Reverse the array so the last added expense comes first
+                        .map((expense) => (
+                        <tr key={expense._id}>
+                            <td>{expense.type}</td>
+                            <td>{expense.description}</td>
+                            <td>{expense.cost}</td>
+                            <td>{new Date(expense.date).toLocaleDateString()}</td>
+                        </tr>
+                        ))}
+                    </tbody>
+                </table>
+                ) : (
+                <p>No expenses recorded for this month.</p>
+                )}
+
           </div>
         </div>
       </div>

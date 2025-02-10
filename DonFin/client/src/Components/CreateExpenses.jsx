@@ -57,8 +57,8 @@ const CreateExpenses = () => {
 
       // Redirect to the month details page after a brief delay
       setTimeout(() => {
-        navigate(`/users/${userId}/month/${monthId}`);
-      }, 2000);
+        navigate(`/month-details/${userId}/${monthId}`);
+      }, );
 
     } catch (err) {
       // Handle errors
