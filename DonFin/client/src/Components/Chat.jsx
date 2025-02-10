@@ -33,8 +33,7 @@ function Chat() {
         const socket = socketRef.current;
 
         const user = JSON.parse(localStorage.getItem("user"));
-        const fullName = user ? `${user.firstName} ${user.lastName}` : "Guest";
-        const firstName = fullName.split(" ")[0];
+        const firstName = user ? `${user.firstName} ${user.lastName}` : "Guest";
 
         if (firstName && firstName !== "Guest") {
             setUsername(firstName);
