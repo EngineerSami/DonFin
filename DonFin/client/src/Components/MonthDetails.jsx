@@ -145,7 +145,7 @@ const MonthDetails = () => {
                 ).map(([_, { originalType, totalCost }]) => {
                   const percentage = budget > 0 ? ((totalCost / budget) * 100).toFixed(2) : 0;
                   return (
-                  <div className="typescost" key={originalType} style={{ color: "black" }}>
+                  <div className="typescost" key={originalType} style={{ color: "black" , display: "inline-block" }}>
                     <div className="circle-container">
                       <div className="circle-background"></div>
                       <div
@@ -156,7 +156,7 @@ const MonthDetails = () => {
                       ></div>
                       <div className="circle-text">{percentage}%</div>
                     </div>
-                    {originalType}: ${totalCost} <br /> <br />
+                    <h2>{originalType}: ${totalCost} <br /> <br /></h2>
                   </div>
                   );
                 })}
