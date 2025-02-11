@@ -4,7 +4,7 @@ import TopBar from "./TopBar";
 import Sidebar from "./SideBar";
 import "../Styles/Chat.css";
 
-const SERVER_URL = "http://localhost:8000"; // Change this to your server URL
+const SERVER_URL = "http://localhost:8000"; 
 
 function Chat() {
     const [username, setUsername] = useState("");
@@ -50,7 +50,7 @@ function Chat() {
         });
 
         socket.on("receive_message", (data) => {
-            if (document.hidden) { // If the user is not focused on the tab
+            if (document.hidden) {
                 setUnreadCount((prevCount) => prevCount + 1);
                 new Notification("New Message", { body: `${data.username}: ${data.message}` });
             }
@@ -67,7 +67,6 @@ function Chat() {
         };
     }, []);
 
-    // Scroll to the latest message when messages update
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);

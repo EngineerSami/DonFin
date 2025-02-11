@@ -1,38 +1,36 @@
-import React, { useState, useEffect } from "react"; // Import useState and useEffect
-import "../Styles/Sidebar.css"; // Ensure you have the correct path for styles
+import React, { useState, useEffect } from "react"; 
+import "../Styles/Sidebar.css"; 
 import { Link } from "react-router-dom";
-import axios from "axios"; // Import axios for making HTTP requests
+import axios from "axios"; 
 
 function Sidebar() {
   const [userName, setUserName] = useState("Guest");
-  const [loading, setLoading] = useState(false); // For tracking loading state
-  const [error, setError] = useState(""); // For error handling
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(""); 
 
-  // Assuming `user` is a global state or context; replace it with the correct way to get the user info
-  const user = JSON.parse(localStorage.getItem("user")) || null; // Example of getting user data from localStorage
+  const user = JSON.parse(localStorage.getItem("user")) || null; 
   const userId = user ? user._id : null;
 
   useEffect(() => {
     if (userId) {
       const fetchUser = async () => {
-        setLoading(true); // Set loading to true while fetching
+        setLoading(true);
         try {
           const { data } = await axios.get(`http://localhost:8000/api/users/${userId}`);
-          setUserName(data.user.firstName +" "+ data.user.lastName); // Set the username from the response
+          setUserName(data.user.firstName +" "+ data.user.lastName); 
         } catch (err) {
           setError("Failed to fetch user data. Please try again.");
         } finally {
-          setLoading(false); // Set loading to false after fetching
+          setLoading(false);
         }
       };
 
-      fetchUser(); // Call the fetchUser function if userId exists
+      fetchUser();
     }
-  }, [userId]); // The effect depends on userId
+  }, [userId]); 
 
   return (
     <div className="sidebar">
-      {/* Display the username at the top of the sidebar */}
       <div className="sidebar-user">
         {userId ? (
           <Link to={`/edit-user/${userId}`} className="sidebar-user-name">

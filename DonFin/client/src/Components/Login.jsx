@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import "../Styles/Register.css";
 import TopBar from "./TopBar";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios'; // Import axios for making API requests
+import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // For navigating after successful login
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();

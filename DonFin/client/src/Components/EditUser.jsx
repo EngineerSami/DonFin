@@ -48,7 +48,6 @@ const EditUser = () => {
     let errors = {};
     if (!userData.email) errors.email = "Email is required.";
 
-    // Password validation
     if (userData.oldPassword && userData.newPassword) {
       if (userData.newPassword !== userData.confirmPassword) {
         errors.password = "New password and confirm password do not match.";
@@ -62,10 +61,10 @@ const EditUser = () => {
     e.preventDefault();
     setMessage("");
     setError("");
-    setFormErrors({}); // Reset form errors
+    setFormErrors({}); 
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
-      setFormErrors(errors); // Set validation errors if any
+      setFormErrors(errors); 
       return;
     }
 
@@ -73,30 +72,24 @@ const EditUser = () => {
     try {
       const formData = { ...userData };
 
-      // Only include password fields if they are provided and validated
       if (userData.oldPassword && userData.newPassword) {
-        // Check if the old password matches the one stored in the database
         const { data } = await axios.get(`http://localhost:8000/api/users/${userId}`);
         
-        // If the old password does not match, return an error message
         if (data.user.password !== userData.oldPassword) {
           setError("Old password is incorrect.");
           setLoading(false);
           return;
         }
 
-        // Prepare form data with the old and new password
         formData.oldPassword = userData.oldPassword;
         formData.newPassword = userData.newPassword;
       }
 
-      // Send the form data to the backend, ensuring to include the password if needed
       const response = await axios.put(
         `http://localhost:8000/api/users/${userId}/edit`,
         formData
       );
       setMessage(response.data.message || "User updated successfully!");
-      // Redirect to /login after successful submission
       setTimeout(() => {
         localStorage.removeItem('user');
         navigate('/login');
@@ -104,7 +97,7 @@ const EditUser = () => {
     } catch (err) {
       setError("Failed to update user. Please try again.");
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
@@ -133,7 +126,6 @@ const EditUser = () => {
                 {formErrors.email && <p style={{ color: "red" }}>{formErrors.email}</p>}
               </label>
 
-              {/* Password Fields */}
               <label>
                 Old Password: <br />
                 <input

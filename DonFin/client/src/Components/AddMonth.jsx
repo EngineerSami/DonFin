@@ -12,12 +12,11 @@ function AddMonth() {
   const [budget, setBudget] = useState("");
   const navigate = useNavigate();
 
-  // Check if the user is logged in
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");  // Redirect to login page if user is not logged in
+      navigate("/login");  
     }
   }, [user, navigate]);
 
@@ -28,7 +27,7 @@ function AddMonth() {
 
     if (!userId) {
       alert("Please log in first.");
-      navigate("/login");  // Redirect to login page
+      navigate("/login");  
       return;
     }
 
@@ -48,11 +47,11 @@ function AddMonth() {
         body: JSON.stringify(monthData),
       });
 
-      const textResponse = await response.text(); // Get response as text first
-      console.log("Raw Response:", textResponse); // Log the raw response for debugging
+      const textResponse = await response.text();
+      console.log("Raw Response:", textResponse); 
 
       try {
-        const data = JSON.parse(textResponse); // Parse the response only if it's valid JSON
+        const data = JSON.parse(textResponse); 
         if (response.ok) {
           navigate("/dashboard");
         } else {

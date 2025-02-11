@@ -63,7 +63,6 @@ const MonthDetails = () => {
     navigate(`/users/${userId}/month/${monthId}/create-expense`);
   };
 
-  // Recalculate total cost and current budget whenever expenses are updated
   useEffect(() => {
     if (month && month.expenses) {
       const updatedTotalCost = month.expenses.reduce((acc, expense) => acc + expense.cost, 0);
@@ -95,7 +94,6 @@ const MonthDetails = () => {
             </div>
           </div>
 
-          {/* Expenses Section */}
           <div className="month-details" style={{ display: "block" }}>
             <div className="expenses-header">
               <h2>Expenses</h2>
@@ -128,7 +126,6 @@ const MonthDetails = () => {
             )}
           </div>
 
-          {/* Expense Types & Total Cost Section */}
           <div className="month-details" style={{ display: "block" }}>
             <h2>Expense Types & Total Cost</h2>
             {month.expenses && month.expenses.length > 0 ? (
@@ -151,7 +148,7 @@ const MonthDetails = () => {
                       <div
                         className="circle-foreground"
                         style={{
-                          transform: `rotate(${(percentage / 100) * 360}deg)`,  // Rotating based on the percentage
+                          transform: `rotate(${(percentage / 100) * 360}deg)`,
                         }}
                       ></div>
                       <div className="circle-text">{percentage}%</div>

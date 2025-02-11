@@ -1,34 +1,33 @@
 import React, { useState, useEffect } from "react";
 import TopBar from "./TopBar";
-import Sidebar from "./SideBar"; // Ensure the correct path is used for Sidebar
-import "../Styles/Transfer.css"; // Add the correct CSS path
+import Sidebar from "./SideBar"; 
+import "../Styles/Transfer.css"; 
 import { useNavigate } from "react-router-dom";
 
 function Transfer() {
-  const [amount, setAmount] = useState(1); // Amount to transfer
-  const [fromCurrency, setFromCurrency] = useState("USD"); // Source currency
-  const [toCurrency, setToCurrency] = useState("EUR"); // Target currency
-  const [conversionRate, setConversionRate] = useState(null); // Conversion rate
-  const [result, setResult] = useState(null); // Result after conversion
-  const [currencies, setCurrencies] = useState([]); // List of currencies
+  const [amount, setAmount] = useState(1); 
+  const [fromCurrency, setFromCurrency] = useState("USD");
+  const [toCurrency, setToCurrency] = useState("EUR"); 
+  const [conversionRate, setConversionRate] = useState(null); 
+  const [result, setResult] = useState(null); 
+  const [currencies, setCurrencies] = useState([]); 
 
-  const navigate = useNavigate(); // Hook for navigation
-  const apiUrl = `https://v6.exchangerate-api.com/v6/180131638c767797f48306e0/latest/${fromCurrency}`; // Dynamic API URL based on 'fromCurrency'
+  const navigate = useNavigate();
+  const apiUrl = `https://v6.exchangerate-api.com/v6/180131638c767797f48306e0/latest/${fromCurrency}`; 
 
-  // Check if the user is logged in
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");  // Redirect to home page (login or landing page)
-      return; // Exit early if no user is found
+      navigate("/login"); 
+      return; 
     }
 
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
         if (data?.conversion_rates) {
-          setCurrencies(Object.keys(data.conversion_rates)); // Dynamically set available currencies
+          setCurrencies(Object.keys(data.conversion_rates)); 
           const rate = data?.conversion_rates?.[toCurrency];
           if (rate) {
             setConversionRate(rate);
@@ -36,9 +35,8 @@ function Transfer() {
         }
       })
       .catch((error) => console.error("Error fetching currency data:", error));
-  }, [fromCurrency, toCurrency, user, navigate]); // Trigger when the source or target currency changes or user changes
+  }, [fromCurrency, toCurrency, user, navigate]); 
 
-  // Function to handle currency conversion
   const handleConvert = () => {
     if (conversionRate) {
       setResult(amount * conversionRate);
