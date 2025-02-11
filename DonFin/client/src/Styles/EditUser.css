@@ -1,6 +1,3 @@
-/* EditUser.css */
-
-
   .dashboard-content {
     display: flex;
     width: 100%;
@@ -14,7 +11,6 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
-  /* Title */
   .edit-user-container h2 {
     font-size: 2rem;
     color: #1a242f;
@@ -28,7 +24,6 @@
     width: 400px;
     text-align: center; 
   }
-  /* Form */
   .edit-user-container form {
     width: 100%;
     max-width: 500px;
@@ -45,7 +40,6 @@
     margin-bottom: 5px;
   }
   
-  /* Form Input Fields */
   .edit-user-container input {
     width: 100%;
     padding: 10px;
@@ -64,14 +58,12 @@
     box-shadow: 0 0 5px rgba(0, 169, 157, 0.5);
   }
   
-  /* Error messages */
   .edit-user-container p {
     font-size: 0.9rem;
     color: red;
     margin-top: 5px;
   }
   
-  /* Submit button */
   button {
     width: 100%;
     padding: 10px;
@@ -93,7 +85,6 @@
     outline: none;
   }
   
-  /* Success or error message */
   .alert {
     padding: 10px;
     color: white;
@@ -103,7 +94,6 @@
     text-align: center;
   }
   
-  /* Adjust for responsiveness */
   @media (max-width: 768px) {
     .main-content {
       padding: 15px;

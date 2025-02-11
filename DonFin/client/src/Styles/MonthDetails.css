@@ -102,7 +102,6 @@ table td {
     color: #333;
 }
 
-/* Button Styling */
 .budget-btn,
 .create-expense-btn {
     background-color: #00a99d;
@@ -120,7 +119,6 @@ table td {
     background-color: #1a242f;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .month-details {
         flex-direction: column;
@@ -148,46 +146,41 @@ table td {
     gap: 20px;
 }
 
-/* Circular Progress Bar Container */
 .circle-container {
     position: relative;
-    width: 100px; /* Adjust size as needed */
-    height: 100px; /* Adjust size as needed */
+    width: 100px; 
+    height: 100px; 
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   
-/* Half Circles for Progress */
 .circle-foreground {
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 6px solid #00a99d; /* Green color for the progress */
-    transform-origin: center center; /* Ensures rotation occurs around the center */
+    border: 6px solid #00a99d; 
+    transform-origin: center center; 
   }
   
-  /* Circle Background (no rotation) */
   .circle-background {
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 6px solid #e0e0e0; /* Light gray border for the background */
+    border: 6px solid #e0e0e0; 
   }
   
   
-  /* Right Half Circle */
   .circle-right {
-    transform: rotate(90deg); /* Start from the right side */
+    transform: rotate(90deg); 
   }
   
-  /* Percentage Text Styling */
   .circle-text {
     position: absolute;
     color: #333;
-    font-size: 20px; /* Adjust font size as needed */
+    font-size: 20px; 
     font-weight: bold;
   }

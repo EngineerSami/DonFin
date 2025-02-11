@@ -1,6 +1,3 @@
-
-
-/* Container for the entire dashboard */
 .dashboard-container {
     display: flex;
     flex-direction: column;
@@ -8,13 +5,11 @@
     background-color: #f4f7fc;
 }
 
-/* Main content container that holds the sidebar and the main content */
 .dashboard-content {
     display: flex;
     flex: 1;
 }
 
-/* Main content box */
 .main-content {
     flex: 1;
     padding: 20px;
@@ -26,14 +21,12 @@
     height: 100vh;
 }
 
-/* Heading styles */
 h2 {
     color: #1a242f;
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-/* Active users list */
 .users-list h3 {
     color: #00a99d;
     font-size: 18px;
@@ -52,7 +45,6 @@ h2 {
     font-size: 16px;
 }
 
-/* Chat box area */
 .chat-box {
     flex-grow: 1;
     display: flex;
@@ -66,7 +58,6 @@ h2 {
     color: #ffffff93;
 }
 
-/* Messages container */
 .messages {
     background-color: #f1f1f1;
     padding: 10px;
@@ -79,7 +70,6 @@ h2 {
     flex-direction: column;
 }
 
-/* Individual message styling */
 .messages p {
     margin: 10px 0;
     color: #fff;
@@ -94,13 +84,11 @@ h2 {
     align-self: flex-start;
 }
 
-/* Align messages to the right if sent by the user */
 .messages .own-message {
     background-color: #1a242f;
     align-self: flex-end;
 }
 
-/* Input container */
 .chat-input-container {
     display: flex;
     gap: 10px;
@@ -142,7 +130,6 @@ h2 {
     background-color: #005f55;
 }
 
-/* Scrollbar Styling */
 .messages::-webkit-scrollbar {
     width: 8px;
 }
@@ -156,7 +143,6 @@ h2 {
     background-color: #f1f1f1;
 }
 
-/* Responsiveness */
 @media (max-width: 768px) {
     .main-content {
         padding: 10px;
