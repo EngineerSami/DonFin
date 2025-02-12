@@ -24,12 +24,12 @@
   }
   
   .logo img {
-    width: 73px;
+    width: 67px;
   }
   
   .nav-links {
     display: flex;
-    gap: 25px;
+    gap: 50px;
     align-items: center;
   }
   

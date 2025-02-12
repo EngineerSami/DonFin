@@ -13,7 +13,7 @@ function Transfer() {
   const [currencies, setCurrencies] = useState([]); 
 
   const navigate = useNavigate();
-  const apiUrl = `https://v6.exchangerate-api.com/v6/d41a59832c4561c16963da0a/latest/${fromCurrency}`; 
+//  const apiUrl = `https://v6.exchangerate-api.com/v6/d41a59832c4561c16963da0a/latest/${fromCurrency}`; 
 
   const user = JSON.parse(localStorage.getItem('user'));
 
