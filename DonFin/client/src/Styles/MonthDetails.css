@@ -32,44 +32,37 @@
     gap: 20px;
 }
 
-/* Left Section Styling */
 .month-details .left {
-    flex: 2; /* Takes more space */
+    flex: 2; 
 }
 
-/* Right Section Styling */
 .month-details .right {
     flex: 1;
     text-align: right;
 }
 
-/* Heading Styling */
 .month-details h2 {
     font-size: 30px;
     color: #333;
     margin-bottom: 15px;
 }
 
-/* Paragraph Styling */
 .month-details p {
     font-size: 25px;
     color: #555;
     margin: 8px 0;
 }
 
-/* Strong Tag Styling */
 .month-details strong {
     color: #222;
 }
 
-/* Error Message Styling */
 .error {
     color: red;
     font-size: 18px;
     text-align: center;
 }
 
-/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -83,19 +76,16 @@ table td {
     font-size: 16px;
 }
 
-/* Table Header Styling */
 table th {
     background-color: #00a99d;
     color: white;
     font-weight: bold;
 }
 
-/* Table Row Styling */
 table tr:nth-child(even) {
     background-color: #f4f4f4;
 }
 
-/* Table Cell Styling */
 table td {
     background-color: white;
     border: 1px solid #e0e0e0;

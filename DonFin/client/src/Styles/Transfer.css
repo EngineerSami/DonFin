@@ -1,4 +1,3 @@
-/* Main container for the page */
 .dashboard-container {
     display: flex;
     flex-direction: column;
@@ -6,14 +5,12 @@
     background-color: white;
   }
   
-  /* Header and Sidebar Container */
   .dashboard-content {
     display: flex;
     flex-grow: 1;
     color: white;
   }
   
-  /* Main content area */
   .main-content {
     flex-grow: 1;
     background-color: white;
@@ -22,7 +19,6 @@
     margin-left: 13%;
   }
   
-  /* Header for the main content */
   .main-content h1 {
     color: #1a242f;
     font-size: 24px;
@@ -30,21 +26,18 @@
     margin-bottom: 30px;
   }
   
-  /* Container for the currency conversion form */
   .currency-conversion {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
   
-  /* Label styles for inputs */
   .currency-conversion label {
     font-size: 16px;
     color: #1a242f;
     font-weight: 500;
   }
   
-  /* Input field styling */
   .currency-conversion input,
   .currency-conversion select {
     padding: 10px;
@@ -63,7 +56,6 @@
     background-color: #e8f8f7;
   }
   
-  /* Button styling */
   .currency-conversion button {
     padding: 12px 20px;
     background-color: #00a99d;
@@ -81,7 +73,6 @@
     background-color: #00978a;
   }
   
-  /* Result display styling */
   .currency-conversion h3 {
     margin-top: 20px;
     font-size: 18px;

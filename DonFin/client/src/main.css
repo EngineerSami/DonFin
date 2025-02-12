@@ -1,7 +1,7 @@
 body {
-    margin: 0; /* Removes any margin */
-    padding: 0; /* Removes any padding */
-    box-sizing: border-box; /* Makes sure that padding and border are included in the element's total width and height */
-    font-family: Arial, sans-serif; /* Set a default font if needed */
+    margin: 0; 
+    padding: 0;
+    box-sizing: border-box; 
+    font-family: Arial, sans-serif; 
     overflow-x: hidden;
 }

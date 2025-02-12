@@ -6,7 +6,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    background-color: #1a242f; /* Dark background color */
+    background-color: #1a242f; 
     color: white;
     padding-top: 20px;
     margin-top: 5.1%;
@@ -17,7 +17,7 @@
     font-size: 18px;
     text-align: center;
     color: white;
-    background-color: #00a99d; /* Light teal for the username section */
+    background-color: #00a99d; 
     height: 30px;
   }
 
@@ -54,6 +54,6 @@
   }
   
   .sidebar-link:hover {
-    background-color: #00a99d; /* Light teal for hover effect */
+    background-color: #00a99d; 
   }
   

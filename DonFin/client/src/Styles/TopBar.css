@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background: linear-gradient(45deg, #00a99d, #1a242f); /* Gradient background for a modern look */
+    background: linear-gradient(45deg, #00a99d, #1a242f); 
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     width: 98%;
     position: fixed;
@@ -12,11 +12,10 @@
     z-index: 100;
   }
   
-  /* Logo style */
   .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #ffffff; /* White color for contrast */
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 2px;
     background-color: #ecf0f1;
@@ -28,14 +27,12 @@
     width: 70px;
   }
   
-  /* Navigation links container */
   .nav-links {
     display: flex;
     gap: 25px;
     align-items: center;
   }
   
-  /* Common styles for links */
   .nav-link {
     text-decoration: none;
     font-size: 16px;
@@ -46,7 +43,7 @@
   }
   
   .nav-link:hover {
-    color: #00a99d; /* Teal hover effect */
+    color: #00a99d; 
   }
   
   .nav-link::after {
@@ -62,7 +59,6 @@
     transition: transform 0.25s ease-out;
   }
   
-  /* Button styles */
   .login-btn,
   .register-btn {
     background-color: #00a99d;
@@ -74,7 +70,6 @@
     transition: background-color 0.3s ease, transform 0.3s ease;
   }
   
-  /* Hover effect for buttons */
   .login-btn:hover,
   .register-btn:hover {
     background-color: #008d84;
