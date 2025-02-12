@@ -14,6 +14,7 @@ const MonthDetails = () => {
   const [currentBudget, setCurrentBudget] = useState(null);
   const [totalCost, setTotalCost] = useState(0);
   const [budget, setBudget] = useState(0);
+  const [Challenge, setChallenge] = useState(0);
 
   useEffect(() => {
     const fetchMonthDetails = async () => {
@@ -21,7 +22,7 @@ const MonthDetails = () => {
         const response = await axios.get(`http://localhost:8000/api/users/${userId}/month/${monthId}`);
         setMonth(response.data);
         setBudget(response.data.budget);
-
+  
         const storedBudget = localStorage.getItem(`currentBudget-${userId}-${monthId}`);
         if (!storedBudget) {
           setCurrentBudget(response.data.budget);
@@ -29,23 +30,34 @@ const MonthDetails = () => {
         } else {
           setCurrentBudget(Number(storedBudget));
         }
-
+  
+        // Fix: Only generate Challenge if not already stored
+        const storedChallenge = localStorage.getItem(`challenge-${userId}-${monthId}`);
+        if (!storedChallenge) {
+          const newChallenge = parseFloat((Math.random() * (0.2 - 0.05) + 0.05).toFixed(2));
+          setChallenge(newChallenge);
+          localStorage.setItem(`challenge-${userId}-${monthId}`, newChallenge);
+        } else {
+          setChallenge(Number(storedChallenge));
+        }
+  
         if (response.data.expenses && response.data.expenses.length > 0) {
           const totalCost = response.data.expenses.reduce((acc, expense) => acc + expense.cost, 0);
           setTotalCost(totalCost);
         } else {
           setTotalCost(0);
         }
-
+  
       } catch (error) {
         setError("Failed to fetch month details. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchMonthDetails();
   }, [userId, monthId]);
+  
 
   const decreaseBudget = async () => {
     const newBudget = budget - totalCost;
@@ -75,6 +87,12 @@ const MonthDetails = () => {
   if (error) return <p className="error">{error}</p>;
   if (!month) return <p>No month details found.</p>;
 
+  const expensesByDate = month.expenses.reduce((acc, expense) => {
+    const date = new Date(expense.date).toLocaleDateString();
+    acc[date] = (acc[date] || 0) + expense.cost;
+    return acc;
+  }, {});
+
   return (
     <div className="dashboard-container">
       <TopBar />
@@ -91,6 +109,7 @@ const MonthDetails = () => {
             <div className="right">
               <h1>Current Budget: {currentBudget}</h1>
               <h1>Total Expense: {totalCost}</h1>
+              <h1>Your Challenge : Save {month.budget * Challenge} </h1>
             </div>
           </div>
 
@@ -142,7 +161,7 @@ const MonthDetails = () => {
                 ).map(([_, { originalType, totalCost }]) => {
                   const percentage = budget > 0 ? ((totalCost / budget) * 100).toFixed(2) : 0;
                   return (
-                  <div className="typescost" key={originalType} style={{ color: "black" , display: "inline-block" }}>
+                  <div className="typescost" key={originalType} style={{ color: "black" , display: "inline-block", margin: "20px" }}>
                     <div className="circle-container">
                       <div className="circle-background"></div>
                       <div
@@ -161,6 +180,25 @@ const MonthDetails = () => {
             ) : (
               <p>No expenses recorded for this month.</p>
             )}
+          </div>
+          <div className="month-details" style={{ display: "block" }}>
+            <h2>Daily Expenses</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Total Spent</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(expensesByDate).map(([date, total]) => (
+                  <tr key={date}>
+                    <td>{date}</td>
+                    <td>{total}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
