@@ -12,7 +12,7 @@ const MonthDetails = () => {
   const [month, setMonth] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [currentBudget, setCurrentBudget] = useState(null);
+  const [currentBudget, setCurrentBudget] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
   const [budget, setBudget] = useState(0);
   const [Challenge, setChallenge] = useState(0);
@@ -93,31 +93,31 @@ const MonthDetails = () => {
   }, {});
 
   const chartData = Object.entries(expensesByDate)
-  .map(([date, total]) => ({
-    label: date,
-    y: total,
-  }))
-  .sort((a, b) => new Date(a.label) - new Date(b.label)); // Sort by date in ascending order
+    .map(([date, total]) => ({
+      label: date,
+      y: total,
+    }))
+    .sort((a, b) => new Date(a.label) - new Date(b.label)); // Sort by date in ascending order
 
-const options = {
-  animationEnabled: true,
-  title: {
-    text: "Daily Expenses Overview",
-  },
-  axisX: {
-    title: "Date",
-  },
-  axisY: {
-    title: "Total Spent",
-    prefix: "$",
-  },
-  data: [
-    {
-      type: "column",
-      dataPoints: chartData,
+  const options = {
+    animationEnabled: true,
+    title: {
+      text: "Daily Expenses Overview",
     },
-  ],
-};
+    axisX: {
+      title: "Date",
+    },
+    axisY: {
+      title: "Total Spent",
+      prefix: "$",
+    },
+    data: [
+      {
+        type: "column",
+        dataPoints: chartData,
+      },
+    ],
+  };
 
   // Chart data for Expense Types & Total Cost
   const expenseTypesData = Object.entries(
@@ -155,11 +155,7 @@ const options = {
         type: "pie",
         showInLegend: true,
         indexLabel: "{label}: {y} ({percentage}%)",
-        dataPoints: expenseTypesData.map((item) => ({
-          label: item.label,
-          y: item.y,
-          percentage: item.percentage,
-        })),
+        dataPoints: expenseTypesData,
       },
     ],
   };
@@ -170,28 +166,30 @@ const options = {
       <div className="dashboard-content">
         <Sidebar />
         <div className="main-content">
-        <div className="month-details">
-          <div className="left">
-            <h2>{month.monthTitle}</h2>
-            <p><strong>Start Date:</strong> {new Date(month.startDate).toLocaleDateString()}</p>
-            <p><strong>End Date:</strong> {new Date(month.endDate).toLocaleDateString()}</p>
-            <p><strong>Initial Budget:</strong> {month.budget}</p>
+          <div className="month-details">
+            <div className="left">
+              <h2>{month.monthTitle}</h2>
+              <p><strong>Start Date:</strong> {new Date(month.startDate).toLocaleDateString()}</p>
+              <p><strong>End Date:</strong> {new Date(month.endDate).toLocaleDateString()}</p>
+              <p><strong>Initial Budget:</strong> {month.budget}</p>
+            </div>
+            
+            <div className="right">
+              <h1>Current Budget: {currentBudget}</h1>
+              <h1>Total Expense: {totalCost}</h1>
+              <h1>Your Challenge: Save {month.budget * Challenge}</h1>
+              
+              {/* Conditional rendering for challenge message */}
+              {currentBudget < month.budget * Challenge ? (
+                <h1 style={{ color: "red" }}>Failed the challenge</h1>
+              ) : currentBudget > month.budget * Challenge && new Date(month.endDate).toLocaleDateString() < new Date().toLocaleDateString() ? (
+                <h1 style={{ color: "green" }}>Success in the challenge</h1>
+              ) : (
+                <h1 style={{ color: "yellow" }}>Challenge in progress</h1>
+              )}
+            </div>
           </div>
-          
-          <div className="right">
-            <h1>Current Budget: {currentBudget}</h1>
-            <h1>Total Expense: {totalCost}</h1>
-            <h1>Your Challenge: Save {month.budget * Challenge}</h1>
-            {/* Conditional rendering for challenge message */}
-            {currentBudget < month.budget * Challenge ? (
-              <h1 style={{ color: "red" }}>Failed the challenge</h1>
-            ) : currentBudget > month.budget * Challenge && new Date(month.endDate).toLocaleDateString() < new Date().toLocaleDateString() ? (
-              <h1 style={{ color: "green" }}>Success in the challenge</h1>
-            ) : (
-              <h1 style={{ color: "yellow" }}>Challenge in progress</h1>
-            )}
-          </div>
-        </div>
+
           <div className="month-details" style={{ display: "block" }}>
             <div className="expenses-header">
               <h2>Expenses</h2>
