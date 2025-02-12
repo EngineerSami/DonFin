@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "axios": "^1.7.9",
+    "canvasjs": "^1.8.3",
+    "canvasjs-react-charts": "^1.0.5",
     "lottie-react": "^2.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

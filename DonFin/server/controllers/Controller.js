@@ -222,33 +222,57 @@ const updateMonthBudget = async (req, res) => {
 const createExpense = async (req, res) => {
   try {
     const { userId, monthId } = req.params;
-    const { type, description, cost } = req.body;
+    const { type, description, cost, date } = req.body;
 
+    // Validate userId and monthId
     if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(monthId)) {
       return res.status(400).json({ message: "Invalid userId or monthId" });
     }
 
+    // Find user by ID
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
+    // Find the month by ID
     const month = user.months.find((m) => m._id.toString() === monthId);
     if (!month) return res.status(404).json({ message: "Month not found" });
 
-    // Validate that cost is a number and greater than zero
+    // Validate that the cost is a number and greater than zero
     if (isNaN(cost) || cost <= 0) {
       return res.status(400).json({ message: "Invalid cost value" });
     }
 
-    const newExpense = { type, description, cost };
-    month.expenses.push(newExpense);
-    month.currentBudget -= cost; // Deduct from current budget
+    // Check if the expense exceeds the current budget
+    if (month.currentBudget - cost < 0) {
+      return res.status(400).json({ message: "Insufficient budget" });
+    }
 
+    // Validate and format the date
+    const expenseDate = new Date(date);
+    if (isNaN(expenseDate)) {
+      return res.status(400).json({ message: "Invalid date" });
+    }
+
+    // Create a new expense object with the correct date format
+    const newExpense = { type, description, cost, date: expenseDate };
+
+    // Add expense to the month and deduct from the budget
+    month.expenses.push(newExpense);
+    month.currentBudget -= cost;
+
+    // Save the updated user document
     await user.save();
+
+    // Respond with success message and the new expense
     res.status(201).json({ message: "Expense added successfully", expense: newExpense });
+
   } catch (error) {
+    // Handle any errors during the process
     res.status(500).json({ message: "Error adding expense", error: error.message });
   }
 };
+
+
 
 
 

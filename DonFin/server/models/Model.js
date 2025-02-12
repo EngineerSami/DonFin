@@ -15,7 +15,6 @@ const ExpensesSchema = new mongoose.Schema(
     date: {
       type: Date,
       required: [true, 'Expense date is required.'],
-      default: Date.now,
     },
     cost: {
       type: Number,

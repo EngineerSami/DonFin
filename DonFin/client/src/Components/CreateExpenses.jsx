@@ -38,39 +38,25 @@ const CreateExpenses = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!expenseData.type || !expenseData.description || !expenseData.cost || !expenseData.date) {
-      setError("All fields are required.");
-      setSuccess("");
-      return;
-    }
-
-    const costValue = parseFloat(expenseData.cost);
-    if (isNaN(costValue) || costValue <= 0) {
-      setError("Please enter a valid cost.");
-      setSuccess("");
-      return;
-    }
-
-    if (currentBudget !== null && currentBudget - costValue < 0) {
-      setError("Insufficient budget to add this expense.");
-      setSuccess("");
-      return;
-    }
-
+  
+    const formattedDate = new Date(expenseData.date).toLocaleDateString('en-GB'); // "DD/MM/YYYY"
+    const updatedExpenseData = { ...expenseData, date: formattedDate };
+  
+    // Now submit updatedExpenseData instead of expenseData
     try {
-      await axios.post(`http://localhost:8000/api/users/${userId}/month/${monthId}/add-expense`, expenseData);
+      await axios.post(`http://localhost:8000/api/users/${userId}/month/${monthId}/add-expense`, updatedExpenseData);
       setExpenseData({ type: "", description: "", cost: "", date: "" });
       setSuccess("Expense added successfully!");
       setError("");
       setTimeout(() => {
         navigate(`/month-details/${userId}/${monthId}`);
-      }, );
+      }, ); // Timeout added for 2 seconds
     } catch (err) {
       setError("Failed to add expense. Please try again.");
       setSuccess("");
     }
   };
+  
 
   return (
     <div className="dashboard-container">
