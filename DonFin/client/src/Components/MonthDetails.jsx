@@ -92,30 +92,32 @@ const MonthDetails = () => {
     return acc;
   }, {});
 
-  const chartData = Object.entries(expensesByDate).map(([date, total]) => ({
+  const chartData = Object.entries(expensesByDate)
+  .map(([date, total]) => ({
     label: date,
     y: total,
-  }));
+  }))
+  .sort((a, b) => new Date(a.label) - new Date(b.label)); // Sort by date in ascending order
 
-  const options = {
-    animationEnabled: true,
-    title: {
-      text: "Daily Expenses Overview",
+const options = {
+  animationEnabled: true,
+  title: {
+    text: "Daily Expenses Overview",
+  },
+  axisX: {
+    title: "Date",
+  },
+  axisY: {
+    title: "Total Spent",
+    prefix: "$",
+  },
+  data: [
+    {
+      type: "column",
+      dataPoints: chartData,
     },
-    axisX: {
-      title: "Date",
-    },
-    axisY: {
-      title: "Total Spent",
-      prefix: "$",
-    },
-    data: [
-      {
-        type: "column",
-        dataPoints: chartData,
-      },
-    ],
-  };
+  ],
+};
 
   // Chart data for Expense Types & Total Cost
   const expenseTypesData = Object.entries(
