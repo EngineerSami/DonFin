@@ -1,8 +1,8 @@
 # **DonFin - Personal Finance Tracker** 💰📊  
-![GitHub repo size](https://img.shields.io/github/repo-size/EngineerSami/donfin?color=green)  
-![GitHub contributors](https://img.shields.io/github/contributors/EngineerSami/donfin)  
-![GitHub last commit](https://img.shields.io/github/last-commit/EngineerSami/donfin)  
-![License](https://img.shields.io/github/license/EngineerSami/donfin)  
+![GitHub repo size](https://img.shields.io/github/repo-size/EngineerSami/DonFin?color=green)  
+![GitHub contributors](https://img.shields.io/github/contributors/EngineerSami/DonFin)  
+![GitHub last commit](https://img.shields.io/github/last-commit/EngineerSami/DonFin)  
+![License](https://img.shields.io/github/license/EngineerSami/DonFin)  
 
 **DonFin** is a personal finance management web application that helps users **track expenses, set budgets, and analyze financial data** through interactive charts. It provides an intuitive way to manage your money and reach your savings goals.  
 
