@@ -38,25 +38,30 @@ const CreateExpenses = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const formattedDate = new Date(expenseData.date).toLocaleDateString('en-GB'); // "DD/MM/YYYY"
-    const updatedExpenseData = { ...expenseData, date: formattedDate };
-  
-    // Now submit updatedExpenseData instead of expenseData
+
+    const formattedDate = new Date(expenseData.date).toISOString().split("T")[0]; // "YYYY-MM-DD"
+    const updatedExpenseData = { 
+      ...expenseData, 
+      cost: parseFloat(expenseData.cost), // Ensure cost is a number
+      date: formattedDate 
+    };
+
     try {
       await axios.post(`http://localhost:8000/api/users/${userId}/month/${monthId}/add-expense`, updatedExpenseData);
       setExpenseData({ type: "", description: "", cost: "", date: "" });
       setSuccess("Expense added successfully!");
       setError("");
+
       setTimeout(() => {
         navigate(`/month-details/${userId}/${monthId}`);
-      }, ); // Timeout added for 2 seconds
+      }, ); // Wait 2 seconds before redirecting
+
     } catch (err) {
-      setError("Failed to add expense. Please try again.");
+      console.error("Error response:", err.response?.data); // Log backend error
+      setError(err.response?.data?.message || "Failed to add expense. Please try again.");
       setSuccess("");
     }
   };
-  
 
   return (
     <div className="dashboard-container">
@@ -70,7 +75,7 @@ const CreateExpenses = () => {
           {success && <p className="success">{success}</p>}
 
           <form onSubmit={handleSubmit} className="expense-form">
-            <Link to={`/month-details/${userId}/${monthId}`} className="view-btn">{"< "} back to your month</Link>
+            <Link to={`/month-details/${userId}/${monthId}`} className="view-btn">{"< "} Back to your month</Link>
             <p>Current Budget: {currentBudget !== null ? `$${currentBudget}` : "Loading..."}</p>
 
             <div className="form-group">
