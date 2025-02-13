@@ -53,7 +53,7 @@ function Sidebar() {
         </li>
         <li>
           <Link to="/chat" className="sidebar-link">
-            Chat
+          Public Chat
           </Link>
         </li>
       </ul>
