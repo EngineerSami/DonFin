@@ -38,24 +38,26 @@ const FAQ = () => {
 
   return (
     <div className="faq-container">
-    <TopBar/>
-      <h2 className="faq-title">Frequently Asked Questions</h2>
-      <div className="faq-list">
-        {faqData.map((faq, index) => (
-          <div className="faq-item" key={index}>
-            <div className="faq-question" onClick={() => toggleAnswer(index)}>
-              <h3>{faq.question}</h3>
-              <span className="toggle-icon">
-                {openIndex === index ? "−" : "+"}
-              </span>
-            </div>
-            {openIndex === index && (
-              <div className="faq-answer">
-                <p>{faq.answer}</p>
+      <TopBar />
+      <div className="faq-wrapper">
+        <h2 className="faq-title">Frequently Asked Questions</h2>
+        <div className="faq-list">
+          {faqData.map((faq, index) => (
+            <div className="faq-item" key={index}>
+              <div className="faq-question" onClick={() => toggleAnswer(index)}>
+                <h3>{faq.question}</h3>
+                <span className={`toggle-icon ${openIndex === index ? 'open' : ''}`}>
+                  {openIndex === index ? "▼" : "▼ "}
+                </span>
               </div>
-            )}
-          </div>
-        ))}
+              {openIndex === index && (
+                <div className="faq-answer">
+                  <p>{faq.answer}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
