@@ -1,7 +1,8 @@
 import React from "react";
 import TopBar from "./TopBar";
 import "../Styles/Home.css";
-import image from "../images/Logo.png";
+import image from "../images/Phone.png";
+
 
 function Home() {
   return (
@@ -25,15 +26,8 @@ function Home() {
           </ul>
         </div>
 
-        <div className="phone-frame">
-          <div className="logo-phone">
-            <img
-              alt="Logo of a running person with Arabic text below"
-              height="100"
-              src={image}
-              width="100"
-            />
-          </div>
+        <div className="image-container">
+          <img src={image} alt="Phone" className="phone"/>
         </div>
       </div>
 
