@@ -1,6 +1,6 @@
 import React from "react";
 import "../Styles/TopBar.css";
-import image from "../images/Logo.png";
+import image from "../images/Logo6.png";
 import { Link, useNavigate } from "react-router-dom";
 
 function TopBar() {

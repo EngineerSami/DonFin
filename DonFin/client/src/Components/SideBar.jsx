@@ -31,15 +31,6 @@ function Sidebar() {
 
   return (
     <div className="sidebar">
-      <div className="sidebar-user">
-        {userId ? (
-          <Link to={`/edit-user/${userId}`} className="sidebar-user-name">
-            {loading ? "Loading..." : error || userName}
-          </Link>
-        ) : (
-          <span className="sidebar-user-name">{userName}</span>
-        )}
-      </div>
       <ul className="sidebar-links">
         <li>
           <Link to="/dashboard" className="sidebar-link">
@@ -55,6 +46,15 @@ function Sidebar() {
           <Link to="/chat" className="sidebar-link">
           Public Chat
           </Link>
+        </li>
+        <li>
+        {userId ? (
+          <Link to={`/edit-user/${userId}`} className="sidebar-link">
+            {loading ? "Loading..." : error || "Edit Profile"}
+          </Link>
+        ) : (
+          {userName}
+        )}
         </li>
       </ul>
     </div>
